@@ -1,70 +1,50 @@
-// app/watchlist/page.tsx
-
-import { watchlist } from "../data/watchlist";
+import { watchlist } from "@/data/watchlist";
 
 export default function WatchlistPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
-      {/* HEADER */}
-      <section className="max-w-7xl mx-auto px-6 pt-24 pb-12">
-        <h1 className="text-5xl font-extrabold tracking-widest">
-          WATCHLIST
-        </h1>
-        <p className="mt-4 max-w-2xl text-gray-400">
-          No Cherry Picking evaluates players across regions with context,
-          consistency, and projection. Rankings reflect live evaluation —
-          not hype.
-        </p>
-      </section>
+    <main style={{ padding: "48px", maxWidth: "1200px", margin: "0 auto" }}>
+      <h1 style={{ fontSize: "42px", marginBottom: "32px" }}>
+        WATCHLIST
+      </h1>
 
-      {/* FILTER BAR (VISUAL ONLY FOR NOW) */}
-      <section className="max-w-7xl mx-auto px-6 pb-10">
-        <div className="flex flex-wrap gap-4 text-sm uppercase tracking-widest text-gray-400">
-          <span className="cursor-pointer hover:text-yellow-400">All</span>
-          <span className="cursor-pointer hover:text-yellow-400">5 Star</span>
-          <span className="cursor-pointer hover:text-yellow-400">4 Star</span>
-          <span className="cursor-pointer hover:text-yellow-400">Guards</span>
-          <span className="cursor-pointer hover:text-yellow-400">Wings</span>
-          <span className="cursor-pointer hover:text-yellow-400">Bigs</span>
-        </div>
-      </section>
-
-      {/* PLAYER GRID */}
-      <section className="max-w-7xl mx-auto px-6 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {watchlist.map((player) => (
-            <div
-              key={player.id}
-              className="border border-gray-800 p-5 hover:border-yellow-400 transition"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <span className="text-yellow-400 font-bold">
-                  {"★".repeat(player.stars)}
-                </span>
-                <span className="text-xs text-gray-500">
-                  {player.classYear}
-                </span>
-              </div>
-
-              <h3 className="text-lg font-bold tracking-wide">
-                {player.name}
-              </h3>
-
-              <p className="mt-2 text-sm text-gray-400">
-                {player.position} • {player.height}
-              </p>
-
-              <p className="mt-1 text-sm text-gray-500">
-                {player.state}
-              </p>
-
-              <div className="mt-6 text-xs uppercase tracking-widest text-yellow-400">
-                View Profile →
-              </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+          gap: "24px",
+        }}
+      >
+        {watchlist.map((player) => (
+          <div
+            key={player.slug}
+            style={{
+              border: "1px solid #333",
+              padding: "20px",
+              borderRadius: "8px",
+            }}
+          >
+            <div style={{ marginBottom: "8px" }}>
+              {"★".repeat(player.stars)}
             </div>
-          ))}
-        </div>
-      </section>
+
+            <h2 style={{ fontSize: "20px", marginBottom: "6px" }}>
+              {player.name}
+            </h2>
+
+            <div style={{ fontSize: "14px", opacity: 0.8 }}>
+              {player.height} • {player.position}
+            </div>
+
+            <div style={{ fontSize: "14px", opacity: 0.8 }}>
+              {player.school} ({player.state})
+            </div>
+
+            <div style={{ fontSize: "14px", opacity: 0.8 }}>
+              Class of {player.classYear}
+            </div>
+          </div>
+        ))}
+      </div>
     </main>
   );
 }
