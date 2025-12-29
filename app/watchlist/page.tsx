@@ -1,6 +1,5 @@
 // app/watchlist/page.tsx
 
-import Link from "next/link";
 import { watchlist } from "../data/watchlist";
 
 export default function WatchlistPage() {
@@ -8,10 +7,10 @@ export default function WatchlistPage() {
     <main className="min-h-screen bg-black text-white">
       {/* HEADER */}
       <section className="max-w-7xl mx-auto px-6 pt-24 pb-12">
-        <h1 className="text-5xl font-extrabold tracking-wide">
+        <h1 className="text-5xl font-extrabold tracking-widest">
           WATCHLIST
         </h1>
-        <p className="mt-4 max-w-2xl text-gray-400">
+        <p className="mt-4 text-gray-400 max-w-2xl">
           No Cherry Picking evaluates players across regions with context,
           consistency, and projection. Rankings reflect live evaluation — not hype.
         </p>
@@ -31,35 +30,31 @@ export default function WatchlistPage() {
 
       {/* PLAYER GRID */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {watchlist.map((player) => (
-            <Link
+            <div
               key={player.id}
-              href={`/watchlist/${player.id}`}
-              className="border border-gray-800 p-5 hover:border-yellow-400 transition"
+              className="border border-gray-800 p-6 hover:border-yellow-400 transition"
             >
-              {/* STARS */}
               <div className="flex justify-between items-start mb-4">
                 <span className="text-yellow-400 font-bold">
                   {"★".repeat(player.stars)}
                 </span>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-400">
                   {player.classYear}
                 </span>
               </div>
 
-              {/* NAME */}
-              <h3 className="text-lg font-semibold leading-tight">
-                {player.name}
-              </h3>
+              <h2 className="text-xl font-bold">{player.name}</h2>
 
-              {/* META */}
-              <div className="mt-2 text-sm text-gray-400 space-y-1">
-                <p>{player.position}</p>
-                <p>{player.height}</p>
-                <p>{player.state}</p>
-              </div>
-            </Link>
+              <p className="text-gray-400 mt-2">
+                {player.position} • {player.height}
+              </p>
+
+              <p className="text-gray-500 text-sm mt-1">
+                {player.state}
+              </p>
+            </div>
           ))}
         </div>
       </section>
