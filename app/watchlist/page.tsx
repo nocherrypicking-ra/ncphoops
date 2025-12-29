@@ -1,6 +1,5 @@
 // app/watchlist/page.tsx
 
-import Link from "next/link";
 import { watchlist } from "../data/watchlist";
 
 export default function WatchlistPage() {
@@ -12,12 +11,12 @@ export default function WatchlistPage() {
           WATCHLIST
         </h1>
         <p className="mt-4 text-gray-400 max-w-2xl">
-          No Cherry Picking evaluates players with context, consistency,
-          and projection. Rankings reflect real evaluation — not hype.
+          No Cherry Picking evaluates players across regions with context,
+          consistency, and projection. Rankings reflect live evaluation — not hype.
         </p>
       </section>
 
-      {/* FILTER BAR (VISUAL ONLY) */}
+      {/* FILTER BAR (VISUAL ONLY FOR NOW) */}
       <section className="max-w-7xl mx-auto px-6 pb-10">
         <div className="flex flex-wrap gap-4 text-sm uppercase tracking-widest text-gray-400">
           <span className="cursor-pointer hover:text-yellow-400">All</span>
@@ -31,34 +30,38 @@ export default function WatchlistPage() {
 
       {/* PLAYER GRID */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {watchlist.map((player) => (
-            <Link
+            <div
               key={player.id}
-              href={`/watchlist/${player.id}`}
-              className="border border-gray-800 p-5 hover:border-yellow-400 transition"
+              className="border border-gray-800 p-6 hover:border-yellow-400 transition"
             >
               <div className="flex justify-between items-start mb-4">
+                <h2 className="text-xl font-bold">{player.name}</h2>
                 <span className="text-yellow-400 font-bold">
                   {"★".repeat(player.stars)}
                 </span>
-                <span className="text-xs text-gray-400">
-                  {player.classYear}
-                </span>
               </div>
 
-              <h3 className="text-lg font-semibold">
-                {player.name}
-              </h3>
-
-              <p className="mt-1 text-sm text-gray-400">
-                {player.position} • {player.height}
-              </p>
-
-              <p className="mt-2 text-xs text-gray-500">
-                {player.state}
-              </p>
-            </Link>
+              <div className="space-y-1 text-sm text-gray-300">
+                <p>
+                  <span className="text-gray-500">Position:</span>{" "}
+                  {player.position}
+                </p>
+                <p>
+                  <span className="text-gray-500">Height:</span>{" "}
+                  {player.height}
+                </p>
+                <p>
+                  <span className="text-gray-500">Class:</span>{" "}
+                  {player.classYear}
+                </p>
+                <p>
+                  <span className="text-gray-500">State:</span>{" "}
+                  {player.state}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
