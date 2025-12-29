@@ -1,33 +1,32 @@
+// app/data/watchlist.ts
+
 export type WatchlistPlayer = {
-  slug: string;
+  id: string;
   name: string;
-  height: string;
   position: string;
+  height: string;
   classYear: string;
-  school: string;
   state: string;
   stars: number;
 };
 
 export const watchlist: WatchlistPlayer[] = [
   {
-    slug: "trey-rhodes",
-    name: "Trey Rhodes",
-    height: "6'5",
-    position: "G/F",
-    classYear: "2025",
-    school: "Arkansas High",
-    state: "AR",
+    id: "player-1",
+    name: "Sample Player One",
+    position: "G",
+    height: "6'2",
+    classYear: "2026",
+    state: "TX",
     stars: 4,
   },
   {
-    slug: "mj-ward",
-    name: "Mahliek Ward",
-    height: "6'6",
+    id: "player-2",
+    name: "Sample Player Two",
     position: "F",
+    height: "6'7",
     classYear: "2025",
-    school: "Little Rock Central",
     state: "AR",
-    stars: 4,
+    stars: 3,
   },
 ];
