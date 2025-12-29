@@ -1,10 +1,10 @@
-// app/data/watchlist.ts
+// /data/watchlist.ts
 
 export type WatchlistPlayer = {
   id: string;
   name: string;
-  height: string;
   position: string;
+  height: string;
   classYear: string;
   school: string;
   state: string;
@@ -14,22 +14,22 @@ export type WatchlistPlayer = {
 export const watchlist: WatchlistPlayer[] = [
   {
     id: "sample-player-1",
-    name: "Sample Player",
-    height: "6'4",
+    name: "Sample Prospect",
     position: "G",
+    height: "6'3",
     classYear: "2026",
     school: "NCP Prep",
-    state: "TX",
-    stars: 4,
+    state: "AR",
+    stars: 5,
   },
   {
     id: "sample-player-2",
-    name: "Another Prospect",
-    height: "6'7",
+    name: "Example Wing",
     position: "F",
+    height: "6'6",
     classYear: "2025",
     school: "NCP Academy",
-    state: "AR",
-    stars: 3,
+    state: "TX",
+    stars: 4,
   },
 ];
