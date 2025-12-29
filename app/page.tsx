@@ -1,49 +1,58 @@
+// app/page.tsx
 export default function HomePage() {
   return (
-    <main style={{ padding: "80px 40px", fontFamily: "sans-serif" }}>
-      <section style={{ marginBottom: "120px" }}>
-        <h1 style={{ fontSize: "56px", fontWeight: 800 }}>
-          NO CHERRY PICKING
-        </h1>
-        <p style={{ marginTop: "20px", fontSize: "18px", maxWidth: "700px" }}>
-          Spotlighting real development, real players, and real opportunity.
-        </p>
+    <>
+      {/* HERO / SPOTLIGHT */}
+      <section className="section hero">
+        <h1>SPOTLIGHT CONTENT</h1>
+        <p>Event • Player of the Month • Feature</p>
+        <div className="hero-box">FEATURED SPOTLIGHT</div>
       </section>
 
-      <section style={{ marginBottom: "120px" }}>
-        <h2 style={{ fontSize: "36px", fontWeight: 700 }}>
-          SPOTLIGHT CONTENT
-        </h2>
-        <p>Featured events, players, and highlights.</p>
+      {/* FEATURED CONTENT */}
+      <section className="section">
+        <h2>FEATURED CONTENT</h2>
+        <div className="grid-4">
+          <div className="card">CONTENT</div>
+          <div className="card">CONTENT</div>
+          <div className="card">CONTENT</div>
+          <div className="card">CONTENT</div>
+        </div>
       </section>
 
-      <section style={{ marginBottom: "120px" }}>
-        <h2 style={{ fontSize: "36px", fontWeight: 700 }}>
-          WATCHLIST
-        </h2>
-        <p>Regional players tracked by class, position, and status.</p>
+      {/* ALL STAR */}
+      <section className="section dark">
+        <h2>ALL STAR 2026</h2>
+        <div className="grid-4">
+          <div className="card">WATCHLIST</div>
+          <div className="card">WATCHLIST</div>
+          <div className="card">WATCHLIST</div>
+          <div className="card">WATCHLIST</div>
+        </div>
       </section>
 
-      <section style={{ marginBottom: "120px" }}>
-        <h2 style={{ fontSize: "36px", fontWeight: 700 }}>
-          EVENTS
-        </h2>
-        <p>Upcoming showcases, All-Star Games, and exposure events.</p>
+      {/* TRAINING */}
+      <section className="section">
+        <h2>TRAINING CLIPS</h2>
+        <div className="grid-4">
+          <div className="card">TRAINING</div>
+          <div className="card">TRAINING</div>
+          <div className="card">TRAINING</div>
+          <div className="card">TRAINING</div>
+        </div>
+        <button className="cta">BOOK NOW</button>
       </section>
 
-      <section style={{ marginBottom: "120px" }}>
-        <h2 style={{ fontSize: "36px", fontWeight: 700 }}>
-          TRAINING & DEVELOPMENT
-        </h2>
-        <p>Mentorship, training clips, and pricing info.</p>
+      {/* ALUMNI */}
+      <section className="section dark">
+        <h2>NCP ALUMNI</h2>
+        <div className="grid-4">
+          <div className="card">ALUMNI</div>
+          <div className="card">ALUMNI</div>
+          <div className="card">ALUMNI</div>
+          <div className="card">ALUMNI</div>
+        </div>
       </section>
-
-      <section>
-        <h2 style={{ fontSize: "36px", fontWeight: 700 }}>
-          NCP ALUMNI
-        </h2>
-        <p>Players who came through the NCP ecosystem.</p>
-      </section>
-    </main>
+    </>
   );
 }
