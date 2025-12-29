@@ -10,9 +10,10 @@ export default function WatchlistPage() {
         <h1 className="text-5xl font-extrabold tracking-widest">
           WATCHLIST
         </h1>
-        <p className="mt-4 text-gray-400 max-w-2xl">
+        <p className="mt-4 max-w-2xl text-gray-400">
           No Cherry Picking evaluates players across regions with context,
-          consistency, and projection. Rankings reflect live evaluation — not hype.
+          consistency, and projection. Rankings reflect live evaluation —
+          not hype.
         </p>
       </section>
 
@@ -30,30 +31,36 @@ export default function WatchlistPage() {
 
       {/* PLAYER GRID */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {watchlist.map((player) => (
             <div
               key={player.id}
-              className="border border-gray-800 p-6 hover:border-yellow-400 transition"
+              className="border border-gray-800 p-5 hover:border-yellow-400 transition"
             >
               <div className="flex justify-between items-start mb-4">
                 <span className="text-yellow-400 font-bold">
                   {"★".repeat(player.stars)}
                 </span>
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-gray-500">
                   {player.classYear}
                 </span>
               </div>
 
-              <h2 className="text-xl font-bold">{player.name}</h2>
+              <h3 className="text-lg font-bold tracking-wide">
+                {player.name}
+              </h3>
 
-              <p className="text-gray-400 mt-2">
+              <p className="mt-2 text-sm text-gray-400">
                 {player.position} • {player.height}
               </p>
 
-              <p className="text-gray-500 text-sm mt-1">
+              <p className="mt-1 text-sm text-gray-500">
                 {player.state}
               </p>
+
+              <div className="mt-6 text-xs uppercase tracking-widest text-yellow-400">
+                View Profile →
+              </div>
             </div>
           ))}
         </div>
