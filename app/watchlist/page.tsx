@@ -1,6 +1,6 @@
 // app/watchlist/page.tsx
-import { watchlist } from "@/data/watchlist";
-import WatchlistClient from "@/components/watchlist/WatchlistClient";
+import { watchlist } from "../../data/watchlist";
+import WatchlistClient from "../../components/watchlist/WatchlistClient";
 
 export default function WatchlistPage() {
   return (
@@ -12,8 +12,8 @@ export default function WatchlistPage() {
           </h1>
 
           <p className="mt-3 max-w-3xl text-sm md:text-base text-white/75">
-            No Cherry Picking evaluates players with context, consistency, and long-term projection.
-            Rankings reflect real evaluation — not hype.
+            No Cherry Picking evaluates players with context, consistency, and
+            long-term projection. Rankings reflect real evaluation — not hype.
           </p>
 
           <div className="mt-6 h-px w-full bg-white/10" />
