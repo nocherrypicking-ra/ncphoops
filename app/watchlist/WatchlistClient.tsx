@@ -12,7 +12,7 @@ export type WatchlistPlayer = {
   school: string;
   state: string;
   stars: number; // 1–5
-  summary?: string; // optional (we can ignore it)
+  summary?: string;
 };
 
 export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
@@ -49,11 +49,12 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
 
         if (!query) return true;
 
-        const hay = `${p.name} ${p.school} ${p.state} ${p.classYear} ${p.position} ${p.height}`.toLowerCase();
+        const hay =
+          `${p.name} ${p.school} ${p.state} ${p.classYear} ${p.position} ${p.height}`.toLowerCase();
+
         return hay.includes(query);
       })
       .sort((a, b) => {
-        // stars DESC, then name ASC
         if (b.stars !== a.stars) return b.stars - a.stars;
         return a.name.localeCompare(b.name);
       });
@@ -155,13 +156,13 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
         </button>
       </div>
 
-            {/* Grid */}
+      {/* Cards */}
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((p) => (
           <Link
             key={p.id}
             href={`/watchlist/${p.id}`}
-            className="group relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/40 p-5 shadow-sm transition hover:border-zinc-700 hover:bg-zinc-950/60"
+            className="group relative block overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/40 p-5 shadow-sm transition hover:border-zinc-700 hover:bg-zinc-950/60"
           >
             {/* subtle glow */}
             <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
@@ -169,26 +170,22 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
               <div className="absolute -right-24 -bottom-24 h-56 w-56 rounded-full bg-white/5 blur-2xl" />
             </div>
 
-            {/* Top row */}
+            {/* Top */}
             <div className="relative flex items-start justify-between gap-4">
               <div className="min-w-0">
-                {/* Stars */}
                 <div className="text-[11px] tracking-[0.22em] text-zinc-400">
                   {"★".repeat(p.stars)}
                 </div>
 
-                {/* Name */}
                 <div className="mt-2 truncate text-xl font-semibold leading-tight text-white">
                   {p.name}
                 </div>
 
-                {/* Height / Pos */}
                 <div className="mt-1 text-sm text-zinc-400">
                   {p.height} • {p.position}
                 </div>
               </div>
 
-              {/* State + Class pill */}
               <div className="shrink-0 text-right">
                 <div className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/40 px-3 py-1 text-xs text-zinc-300">
                   <span className="font-semibold text-white">{p.state}</span>
@@ -198,59 +195,22 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="relative my-4 h-px w-full bg-zinc-800/80" />
 
-            {/* School */}
+            {/* Bottom */}
             <div className="relative flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <div className="truncate text-sm text-zinc-300">{p.school}</div>
               </div>
-
-              {/* View profile cue */}
               <div className="shrink-0 text-xs text-zinc-500 transition group-hover:text-zinc-300">
                 View →
               </div>
             </div>
 
-            {/* Optional summary */}
             {p.summary ? (
-              <div className="relative mt-3 line-clamp-3 text-xs leading-relaxed text-zinc-400">
+              <div className="relative mt-3 text-xs leading-relaxed text-zinc-400">
                 {p.summary}
               </div>
-            ) : null}
-          </Link>
-        ))}
-      </div>
-
-        {filtered.map((p) => (
-          <Link
-            key={p.id}
-            href={`/watchlist/${p.id}`}
-            className="block rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 shadow-sm transition hover:border-zinc-700 hover:bg-zinc-900/60"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="text-xs tracking-widest text-zinc-400">
-                  {"★".repeat(p.stars)}
-                </div>
-                <div className="mt-1 text-lg font-semibold leading-tight">{p.name}</div>
-                <div className="mt-1 text-sm text-zinc-400">
-                  {p.height} • {p.position}
-                </div>
-              </div>
-
-              <div className="text-right text-sm text-zinc-300">
-                <div className="font-medium text-white">{p.state}</div>
-                <div className="text-zinc-400">{p.classYear}</div>
-              </div>
-            </div>
-
-            <div className="mt-3 text-sm text-zinc-400">{p.school}</div>
-
-            {/* summary optional - safe */}
-            {p.summary ? (
-              <div className="mt-3 text-xs text-zinc-300">{p.summary}</div>
             ) : null}
           </Link>
         ))}
