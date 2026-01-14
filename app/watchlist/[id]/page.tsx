@@ -2,13 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { watchlist } from "../_data/watchlist";
 
-export default function PlayerPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function PlayerPage({ params }: { params: { id: string } }) {
   const player = watchlist.find((p) => p.id === params.id);
-
   if (!player) return notFound();
 
   return (
@@ -28,20 +23,31 @@ export default function PlayerPage({
             {"★".repeat(player.stars)}
           </div>
 
-          <h1 className="mt-2 text-3xl font-semibold leading-tight">
-            {player.name}
-          </h1>
+          <h1 className="mt-2 text-3xl font-semibold leading-tight">{player.name}</h1>
 
-          <div className="mt-3 text-zinc-300">
-            {player.height} • {player.position} • Class of {player.classYear}
+          <div className="mt-2 text-zinc-300">
+            {player.school} ({player.state}) • Class of {player.classYear}
           </div>
 
-          <div className="mt-2 text-zinc-400">
-            {player.school} • {player.state}
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
+              <div className="text-xs text-zinc-400">Height</div>
+              <div className="mt-1 font-medium">{player.height}</div>
+            </div>
+            <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
+              <div className="text-xs text-zinc-400">Position</div>
+              <div className="mt-1 font-medium">{player.position}</div>
+            </div>
+            <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
+              <div className="text-xs text-zinc-400">Stars</div>
+              <div className="mt-1 font-medium">{player.stars}</div>
+            </div>
           </div>
 
           {player.summary ? (
-            <p className="mt-6 leading-relaxed text-zinc-200">{player.summary}</p>
+            <div className="mt-6 text-sm text-zinc-200 leading-relaxed">
+              {player.summary}
+            </div>
           ) : null}
         </div>
       </div>
