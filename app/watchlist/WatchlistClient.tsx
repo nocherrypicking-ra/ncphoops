@@ -1,82 +1,93 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import Link from "next/link";
-import type { WatchlistPlayer } from "./_data/watchlist";
+import { useMemo, useState } from "react";
 
-type Props = {
-  data: WatchlistPlayer[];
+export type WatchlistPlayer = {
+  id: string;
+  name: string;
+  height: string;
+  position: string;
+  classYear: string;
+  school: string;
+  state: string;
+  stars: number; // 1–5
+  summary?: string; // optional (we can ignore it)
 };
 
-export default function WatchlistClient({ data }: Props) {
+export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
   const [q, setQ] = useState("");
-  const [stars, setStars] = useState<"all" | 1 | 2 | 3 | 4 | 5>("all");
+  const [star, setStar] = useState<number | "all">("all");
   const [state, setState] = useState("all");
   const [classYear, setClassYear] = useState("all");
   const [position, setPosition] = useState("all");
 
   const states = useMemo(() => {
-    const set = new Set<string>();
-    data.forEach((p) => set.add(p.state));
-    return ["all", ...Array.from(set).sort()];
+    const s = Array.from(new Set(data.map((p) => p.state).filter(Boolean)));
+    return s.sort((a, b) => a.localeCompare(b));
   }, [data]);
 
   const classYears = useMemo(() => {
-    const set = new Set<string>();
-    data.forEach((p) => set.add(p.classYear));
-    return ["all", ...Array.from(set).sort()];
+    const y = Array.from(new Set(data.map((p) => p.classYear).filter(Boolean)));
+    return y.sort((a, b) => Number(a) - Number(b));
   }, [data]);
 
   const positions = useMemo(() => {
-    const set = new Set<string>();
-    data.forEach((p) => set.add(p.position));
-    return ["all", ...Array.from(set).sort()];
+    const p = Array.from(new Set(data.map((x) => x.position).filter(Boolean)));
+    return p.sort((a, b) => a.localeCompare(b));
   }, [data]);
 
   const filtered = useMemo(() => {
     const query = q.trim().toLowerCase();
 
-    return data.filter((p) => {
-      const matchQuery =
-        query.length === 0
-          ? true
-          : `${p.name} ${p.school} ${p.state}`.toLowerCase().includes(query);
+    return data
+      .filter((p) => {
+        if (star !== "all" && p.stars !== star) return false;
+        if (state !== "all" && p.state !== state) return false;
+        if (classYear !== "all" && p.classYear !== classYear) return false;
+        if (position !== "all" && p.position !== position) return false;
 
-      const matchStars = stars === "all" ? true : p.stars === stars;
-      const matchState = state === "all" ? true : p.state === state;
-      const matchClass = classYear === "all" ? true : p.classYear === classYear;
-      const matchPos = position === "all" ? true : p.position === position;
+        if (!query) return true;
 
-      return matchQuery && matchStars && matchState && matchClass && matchPos;
-    });
-  }, [data, q, stars, state, classYear, position]);
+        const hay = `${p.name} ${p.school} ${p.state} ${p.classYear} ${p.position} ${p.height}`.toLowerCase();
+        return hay.includes(query);
+      })
+      .sort((a, b) => {
+        // stars DESC, then name ASC
+        if (b.stars !== a.stars) return b.stars - a.stars;
+        return a.name.localeCompare(b.name);
+      });
+  }, [data, q, star, state, classYear, position]);
 
-  function reset() {
+  const reset = () => {
     setQ("");
-    setStars("all");
+    setStar("all");
     setState("all");
     setClassYear("all");
     setPosition("all");
-  }
+  };
 
   return (
     <div className="space-y-6">
       {/* Filters */}
-      <div className="flex flex-col gap-3 md:flex-row md:items-center">
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search name, school, state..."
-          className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-zinc-600 md:max-w-md"
-        />
+      <div className="grid gap-3 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search name, school, state..."
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-zinc-600"
+          />
+        </div>
 
-        <div className="grid w-full grid-cols-2 gap-3 md:flex md:w-auto md:flex-1 md:flex-row">
+        <div className="lg:col-span-2">
           <select
-            value={stars}
-            onChange={(e) =>
-              setStars(e.target.value === "all" ? "all" : (Number(e.target.value) as 1 | 2 | 3 | 4 | 5))
-            }
-            className="rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
+            value={star}
+            onChange={(e) => {
+              const v = e.target.value;
+              setStar(v === "all" ? "all" : Number(v));
+            }}
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
           >
             <option value="all">All Stars</option>
             <option value="5">★★★★★</option>
@@ -85,80 +96,79 @@ export default function WatchlistClient({ data }: Props) {
             <option value="2">★★</option>
             <option value="1">★</option>
           </select>
+        </div>
 
+        <div className="lg:col-span-2">
           <select
             value={state}
             onChange={(e) => setState(e.target.value)}
-            className="rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
           >
             <option value="all">All States</option>
-            {states
-              .filter((s) => s !== "all")
-              .map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
+            {states.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
           </select>
+        </div>
 
+        <div className="lg:col-span-2">
           <select
             value={classYear}
             onChange={(e) => setClassYear(e.target.value)}
-            className="rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
           >
-            <option value="all">All Class</option>
-            {classYears
-              .filter((y) => y !== "all")
-              .map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
+            <option value="all">All Classes</option>
+            {classYears.map((y) => (
+              <option key={y} value={y}>
+                {y}
+              </option>
+            ))}
           </select>
+        </div>
 
+        <div className="lg:col-span-1">
           <select
             value={position}
             onChange={(e) => setPosition(e.target.value)}
-            className="rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
           >
             <option value="all">All Pos</option>
-            {positions
-              .filter((p) => p !== "all")
-              .map((p) => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
+            {positions.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
           </select>
         </div>
+      </div>
 
-        <div className="flex items-center justify-between gap-3 md:justify-end">
-          <div className="text-sm text-zinc-300">{filtered.length} players</div>
-          <button
-            onClick={reset}
-            className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-2 text-sm text-zinc-200 hover:border-zinc-700 hover:bg-zinc-900"
-          >
-            Reset
-          </button>
-        </div>
+      {/* Count + Reset */}
+      <div className="flex items-center justify-between">
+        <div className="text-sm text-zinc-400">{filtered.length} players</div>
+        <button
+          onClick={reset}
+          className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2 text-sm text-zinc-200 hover:border-zinc-700 hover:text-white"
+        >
+          Reset
+        </button>
       </div>
 
       {/* Grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((p) => (
-<Link href={`/watchlist/${p.id}`}>
+          <Link
             key={p.id}
-href={`/watchlist/${p.id}`}
+            href={`/watchlist/${p.id}`}
             className="block rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 shadow-sm transition hover:border-zinc-700 hover:bg-zinc-900/60"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="text-xs tracking-wide text-zinc-400">
+                <div className="text-xs tracking-widest text-zinc-400">
                   {"★".repeat(p.stars)}
                 </div>
-                <div className="mt-1 text-lg font-semibold leading-tight">
-                  {p.name}
-                </div>
+                <div className="mt-1 text-lg font-semibold leading-tight">{p.name}</div>
                 <div className="mt-1 text-sm text-zinc-400">
                   {p.height} • {p.position}
                 </div>
@@ -170,10 +180,9 @@ href={`/watchlist/${p.id}`}
               </div>
             </div>
 
-            <div className="mt-3 text-sm text-zinc-300">
-              <div className="font-medium text-white">{p.school}</div>
-            </div>
+            <div className="mt-3 text-sm text-zinc-400">{p.school}</div>
 
+            {/* summary optional - safe */}
             {p.summary ? (
               <div className="mt-3 text-xs text-zinc-300">{p.summary}</div>
             ) : null}
