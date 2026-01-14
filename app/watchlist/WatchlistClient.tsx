@@ -146,7 +146,7 @@ export default function WatchlistClient({ data }: Props) {
       {/* Grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((p) => (
-          <Link
+<Link href={`/watchlist/${p.id}`}>
             key={p.id}
 href={`/watchlist/${p.id}`}
             className="block rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 shadow-sm transition hover:border-zinc-700 hover:bg-zinc-900/60"
