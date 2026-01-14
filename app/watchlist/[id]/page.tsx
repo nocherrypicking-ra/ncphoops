@@ -7,11 +7,7 @@ export default function PlayerPage({
 }: {
   params: { id: string };
 }) {
-  const id = params?.id;
-
-  if (!id) return notFound();
-
-  const player = watchlist.find((p) => p.id === id);
+  const player = watchlist.find((p) => p.id === params.id);
 
   if (!player) return notFound();
 
@@ -29,7 +25,7 @@ export default function PlayerPage({
 
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6">
           <div className="text-xs tracking-widest text-zinc-400">
-            {"★".repeat(Number(player.stars || 0))}
+            {"★".repeat(player.stars)}
           </div>
 
           <h1 className="mt-2 text-3xl font-semibold leading-tight">
@@ -44,10 +40,8 @@ export default function PlayerPage({
             {player.school} • {player.state}
           </div>
 
-          {"summary" in player && (player as any).summary ? (
-            <p className="mt-6 leading-relaxed text-zinc-200">
-              {(player as any).summary}
-            </p>
+          {player.summary ? (
+            <p className="mt-6 leading-relaxed text-zinc-200">{player.summary}</p>
           ) : null}
         </div>
       </div>
