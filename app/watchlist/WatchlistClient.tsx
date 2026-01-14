@@ -148,7 +148,7 @@ export default function WatchlistClient({ data }: Props) {
         {filtered.map((p) => (
           <Link
             key={p.id}
-            href={`/watchlist/${p.id}`}
+href={`/watchlist/${p.id}`}
             className="block rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 shadow-sm transition hover:border-zinc-700 hover:bg-zinc-900/60"
           >
             <div className="flex items-start justify-between gap-3">
