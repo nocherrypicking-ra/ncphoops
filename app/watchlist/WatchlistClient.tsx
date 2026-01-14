@@ -155,8 +155,74 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
         </button>
       </div>
 
-      {/* Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Grid */}
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((p) => (
+          <Link
+            key={p.id}
+            href={`/watchlist/${p.id}`}
+            className="group relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/40 p-5 shadow-sm transition hover:border-zinc-700 hover:bg-zinc-950/60"
+          >
+            {/* subtle glow */}
+            <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
+              <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-white/5 blur-2xl" />
+              <div className="absolute -right-24 -bottom-24 h-56 w-56 rounded-full bg-white/5 blur-2xl" />
+            </div>
+
+            {/* Top row */}
+            <div className="relative flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                {/* Stars */}
+                <div className="text-[11px] tracking-[0.22em] text-zinc-400">
+                  {"★".repeat(p.stars)}
+                </div>
+
+                {/* Name */}
+                <div className="mt-2 truncate text-xl font-semibold leading-tight text-white">
+                  {p.name}
+                </div>
+
+                {/* Height / Pos */}
+                <div className="mt-1 text-sm text-zinc-400">
+                  {p.height} • {p.position}
+                </div>
+              </div>
+
+              {/* State + Class pill */}
+              <div className="shrink-0 text-right">
+                <div className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/40 px-3 py-1 text-xs text-zinc-300">
+                  <span className="font-semibold text-white">{p.state}</span>
+                  <span className="h-3 w-px bg-zinc-700" />
+                  <span className="text-zinc-300">{p.classYear}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="relative my-4 h-px w-full bg-zinc-800/80" />
+
+            {/* School */}
+            <div className="relative flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <div className="truncate text-sm text-zinc-300">{p.school}</div>
+              </div>
+
+              {/* View profile cue */}
+              <div className="shrink-0 text-xs text-zinc-500 transition group-hover:text-zinc-300">
+                View →
+              </div>
+            </div>
+
+            {/* Optional summary */}
+            {p.summary ? (
+              <div className="relative mt-3 line-clamp-3 text-xs leading-relaxed text-zinc-400">
+                {p.summary}
+              </div>
+            ) : null}
+          </Link>
+        ))}
+      </div>
+
         {filtered.map((p) => (
           <Link
             key={p.id}
