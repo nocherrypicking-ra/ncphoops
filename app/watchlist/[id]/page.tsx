@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { watchlist } from "@/data/watchlist";
+import { watchlist } from "../_data/watchlist";
 
 export default function PlayerProfile({ params }: { params: { id: string } }) {
   const player = watchlist.find((p) => p.id === params.id);
@@ -45,23 +45,14 @@ export default function PlayerProfile({ params }: { params: { id: string } }) {
           </div>
 
           {player.summary ? (
-            <div className="mt-6 text-zinc-200 leading-relaxed">{player.summary}</div>
-          ) : (
-            <div className="mt-6 text-zinc-400">Scouting summary coming soon.</div>
-          )}
-
-          {player.tags?.length ? (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {player.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full border border-zinc-700 bg-zinc-950 px-3 py-1 text-xs text-zinc-200"
-                >
-                  {t}
-                </span>
-              ))}
+            <div className="mt-6 text-zinc-200 leading-relaxed">
+              {player.summary}
             </div>
-          ) : null}
+          ) : (
+            <div className="mt-6 text-zinc-400">
+              Scouting summary coming soon.
+            </div>
+          )}
         </div>
       </div>
     </div>
