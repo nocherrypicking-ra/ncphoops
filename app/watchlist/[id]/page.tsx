@@ -1,9 +1,23 @@
-import { notFound } from "next/navigation";
+// app/watchlist/[id]/page.tsx
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { watchlist } from "../_data/watchlist";
 
-export default function PlayerPage({ params }: { params: { id: string } }) {
-  const player = watchlist.find((p) => p.id === params.id);
+type ParamsMaybePromise = { id: string } | Promise<{ id: string }>;
+
+export default async function PlayerPage({
+  params,
+}: {
+  params: ParamsMaybePromise;
+}) {
+  const resolved = await Promise.resolve(params as any);
+  const rawId = resolved?.id;
+
+  if (!rawId) return notFound();
+
+  const id = decodeURIComponent(String(rawId));
+  const player = watchlist.find((p) => p.id === id);
+
   if (!player) return notFound();
 
   return (
@@ -23,31 +37,25 @@ export default function PlayerPage({ params }: { params: { id: string } }) {
             {"★".repeat(player.stars)}
           </div>
 
-          <h1 className="mt-2 text-3xl font-semibold leading-tight">{player.name}</h1>
+          <h1 className="mt-2 text-3xl font-semibold leading-tight">
+            {player.name}
+          </h1>
 
-          <div className="mt-2 text-zinc-300">
-            {player.school} ({player.state}) • Class of {player.classYear}
+          <div className="mt-3 text-zinc-300">
+            <span className="font-medium text-white">{player.school}</span>{" "}
+            <span className="text-zinc-500">•</span> {player.state}{" "}
+            <span className="text-zinc-500">•</span> Class of {player.classYear}
           </div>
 
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-              <div className="text-xs text-zinc-400">Height</div>
-              <div className="mt-1 font-medium">{player.height}</div>
-            </div>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-              <div className="text-xs text-zinc-400">Position</div>
-              <div className="mt-1 font-medium">{player.position}</div>
-            </div>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-              <div className="text-xs text-zinc-400">Stars</div>
-              <div className="mt-1 font-medium">{player.stars}</div>
-            </div>
+          <div className="mt-2 text-zinc-300">
+            {player.height} <span className="text-zinc-500">•</span>{" "}
+            {player.position}
           </div>
 
           {player.summary ? (
-            <div className="mt-6 text-sm text-zinc-200 leading-relaxed">
+            <p className="mt-5 text-sm leading-relaxed text-zinc-200">
               {player.summary}
-            </div>
+            </p>
           ) : null}
         </div>
       </div>
