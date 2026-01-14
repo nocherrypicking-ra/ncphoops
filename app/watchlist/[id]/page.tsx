@@ -3,7 +3,8 @@ import Link from "next/link";
 import { watchlist } from "../_data/watchlist";
 
 export default function PlayerPage({ params }: { params: { id: string } }) {
-  const player = watchlist.find((p) => p.id === params.id);
+const id = decodeURIComponent(params.id);
+const player = watchlist.find((p) => p.id === id);
 
   if (!player) return notFound();
 
