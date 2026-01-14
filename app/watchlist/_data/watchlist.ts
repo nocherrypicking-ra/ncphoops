@@ -1,5 +1,3 @@
-// /app/watchlist/_data/watchlist.ts
-
 export type WatchlistPlayer = {
   id: string;
   name: string;
@@ -8,11 +6,10 @@ export type WatchlistPlayer = {
   classYear: string;
   school: string;
   state: string;
-  stars: number;     // 0–5
+  stars: number;
   summary?: string;
-  tags?: string[];
 };
 
 export const watchlist: WatchlistPlayer[] = [
-  // put your players here
+  // your players
 ];
