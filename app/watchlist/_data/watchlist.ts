@@ -7,7 +7,9 @@ export type WatchlistPlayer = {
   school: string;
   state: string;
   stars: 1 | 2 | 3 | 4 | 5;
+  summary?: string;
 };
+
 
 export const watchlist: WatchlistPlayer[] = [
   { id: "jj-andrews-2026", name: "JJ Andrews", height: "6'7", position: "G/F", classYear: "2026", school: "Little Rock Christian", state: "AR", stars: 5 },
