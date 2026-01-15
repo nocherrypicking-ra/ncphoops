@@ -25,7 +25,13 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
-  const player = watchlist.find((p) => p.id === params.id);
+const slugify = (s: string) =>
+  (s || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const player = watchlist.find((p) => slugify(p.id || p.name) === params.id);
   if (!player) return notFound();
 
   return (
