@@ -1,33 +1,26 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { watchlist } from "../_data/watchlist";
-import ShareBar from "./ShareBar";
 
+// same slugify everywhere
 const slugify = (s: string) =>
   (s || "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-/**
- * ✅ ONE SLUG RULE FOR THE WHOLE SITE
- * We match the IDs you already have in your data (jj-andrews-2026, ethan-sheats-2026, etc.)
- * That means: slug = slugify(p.id)
- */
-const playerSlug = (p: any) => slugify(p?.id || "");
+// match strategy: prefer id (your ids are already clean), fallback name-classYear, fallback name
+const playerSlug = (p: any) => {
+  const id = (p?.id || "").trim();
+  const name = (p?.name || "").trim();
+  const year = (p?.classYear || "").trim();
+  return slugify(id || `${name}-${year}` || name);
+};
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
-  const opacity =
-    count >= 5
-      ? "opacity-100"
-      : count === 4
-      ? "opacity-90"
-      : count === 3
-      ? "opacity-75"
-      : "opacity-60";
-
   return (
-    <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
+    <div className="flex items-center gap-0.5 text-yellow-400">
       {Array.from({ length: count }).map((_, i) => (
         <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">
           ★
@@ -41,17 +34,30 @@ function Stars({ n }: { n: number }) {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-      <p className="text-[11px] tracking-widest uppercase text-gray-400">{label}</p>
+      <p className="text-[11px] tracking-widest uppercase text-gray-400">
+        {label}
+      </p>
       <p className="mt-2 text-lg font-semibold text-white">{value}</p>
     </div>
   );
 }
 
-export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
+export default function WatchlistPlayerPage({
+  params,
+}: {
+  params: { id?: string };
+}) {
   const routeId = (params?.id || "").trim();
 
-  // ✅ Match by slugified data id
-  const player = watchlist.find((p: any) => playerSlug(p) === routeId);
+  // if Next isn't passing params for some reason, hard fail
+  if (!routeId) {
+    notFound();
+  }
+
+  const player =
+    watchlist.find((p: any) => playerSlug(p) === routeId) ||
+    watchlist.find((p: any) => slugify(p?.id || "") === routeId) ||
+    watchlist.find((p: any) => slugify(p?.name || "") === routeId);
 
   if (!player) {
     return (
@@ -78,12 +84,18 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
             </h1>
 
             <p className="mt-3 text-sm text-gray-300">
-              Route ID: <span className="text-yellow-400 break-all">{routeId || "(empty)"}</span>
+              Route ID:{" "}
+              <span className="text-yellow-400 break-all">{routeId}</span>
             </p>
 
-            <p className="mt-3 text-sm text-gray-400">
-              This means the URL slug didn’t match a player id in your data.
-              Your IDs should look like: <span className="text-gray-200">ethan-sheats-2026</span>
+            <p className="mt-3 text-sm text-gray-400 leading-relaxed">
+              Your Watchlist links are working, but this slug didn’t match a
+              player record.
+            </p>
+
+            <p className="mt-4 text-xs text-gray-500">
+              Try checking the player id inside{" "}
+              <span className="text-gray-200">app/watchlist/_data/watchlist.ts</span>
             </p>
           </div>
 
@@ -92,8 +104,6 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
       </div>
     );
   }
-
-  const slug = playerSlug(player);
 
   return (
     <div className="min-h-screen bg-[#070707] text-white">
@@ -110,7 +120,10 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
             ← Back to Watchlist
           </Link>
 
-          <Link href="/watchlist#criteria" className="text-sm text-yellow-400 hover:text-yellow-300 transition">
+          <Link
+            href="/watchlist#criteria"
+            className="text-sm text-yellow-400 hover:text-yellow-300 transition"
+          >
             Watchlist Criteria →
           </Link>
         </div>
@@ -120,18 +133,22 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
             <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">
               NOCHERRYPICKING
             </p>
+
             <Stars n={player.stars} />
+
             <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
               {player.name}
             </h1>
 
             <p className="text-sm text-gray-300">
-              {player.height} <span className="text-gray-500">·</span> {player.position}{" "}
-              <span className="text-gray-500">·</span> Class of {player.classYear}
+              {player.height} <span className="text-gray-500">·</span>{" "}
+              {player.position} <span className="text-gray-500">·</span> Class of{" "}
+              {player.classYear}
             </p>
 
             <p className="text-sm text-yellow-400 mt-1">
-              {player.school} <span className="text-gray-500">·</span> {player.state}
+              {player.school} <span className="text-gray-500">·</span>{" "}
+              {player.state}
             </p>
           </div>
 
@@ -145,15 +162,16 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
           <div className="mt-10">
             <h2 className="text-lg font-semibold">Scouting Summary</h2>
             <p className="mt-3 text-sm text-gray-300 leading-relaxed">
-              {player.summary?.trim() ? player.summary : "Scouting summary coming soon."}
+              {player.summary?.trim()
+                ? player.summary
+                : "Scouting summary coming soon."}
             </p>
           </div>
-
-          {/* ✅ Copy + Share (client-safe) */}
-          <ShareBar slug={slug} name={player.name} classYear={player.classYear} />
         </div>
 
-        <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Player Profiles</p>
+        <p className="mt-10 text-xs text-gray-600">
+          NCP Watchlist • Player Profiles
+        </p>
       </div>
     </div>
   );
