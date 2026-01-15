@@ -9,7 +9,9 @@ function Stars({ n }: { n: number }) {
   return (
     <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">★</span>
+        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">
+          ★
+        </span>
       ))}
       {count === 0 && <span className="text-gray-600">—</span>}
     </div>
@@ -25,30 +27,54 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
-  const routeId = (params?.id || "").trim();
+// ✅ App Router signature (Next 13+)
+// params is ALWAYS provided when the folder is /[id]/page.tsx
+export default function WatchlistPlayerPage({
+  params,
+}: {
+  params: { id?: string };
+}) {
+  const routeId = (params?.id ?? "").trim();
 
-  // ✅ Match by id ONLY (your data ids are already clean slugs)
-  const player = watchlist.find((p) => p.id === routeId);
+  // Match by id (your ids are already slugs like ethan-sheats-2026)
+  const player = routeId ? watchlist.find((p) => p.id === routeId) : undefined;
 
   if (!player) {
     return (
       <div className="mx-auto max-w-4xl px-6 py-16">
-        <Link href="/watchlist" className="text-sm text-gray-300 hover:text-yellow-300 transition">
+        <Link
+          href="/watchlist"
+          className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-yellow-300 transition"
+        >
           ← Back to Watchlist
         </Link>
 
         <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-7">
           <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
           <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
+
           <p className="mt-3 text-sm text-gray-300">
-            Route ID: <span className="text-yellow-400 break-all">{routeId || "(empty)"}</span>
+            Route ID:{" "}
+            <span className="text-yellow-400 break-all">{routeId || "(empty)"}</span>
           </p>
-          <p className="mt-4 text-xs text-gray-500">
-            If this says (empty), your route param isn’t being captured. If it shows an id that isn’t in your data,
-            your watchlist links are pointing to the wrong value.
-          </p>
+
+          {/* Helpful debug */}
+          <div className="mt-6 text-xs text-gray-500 space-y-2">
+            <p>
+              If Route ID is <span className="text-gray-200">(empty)</span>, Next is not capturing the dynamic param.
+            </p>
+            <p>
+              Confirm the file path is exactly:{" "}
+              <span className="text-gray-200">app/watchlist/[id]/page.tsx</span>
+            </p>
+            <p className="text-gray-600">
+              Try opening a direct URL like:{" "}
+              <span className="text-gray-200">/watchlist/ethan-sheats-2026</span>
+            </p>
+          </div>
         </div>
+
+        <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Debug View</p>
       </div>
     );
   }
