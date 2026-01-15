@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { watchlist } from "../_data/watchlist";
 
 function Stars({ n }: { n: number }) {
@@ -25,16 +28,11 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function WatchlistPlayerPage({ params }: { params: { id?: string } }) {
+export default function WatchlistPlayerPage() {
+  const params = useParams();
   const routeId = String(params?.id ?? "").trim();
 
-  // normalize ids (trim) just in case
-  const normalized = watchlist.map((p: any) => ({
-    ...p,
-    id: String(p?.id ?? "").trim(),
-  }));
-
-  const player = normalized.find((p: any) => p.id === routeId);
+  const player = watchlist.find((p: any) => String(p?.id ?? "").trim() === routeId);
 
   if (!player) {
     return (
@@ -61,23 +59,15 @@ export default function WatchlistPlayerPage({ params }: { params: { id?: string 
             </p>
 
             <p className="mt-2 text-sm text-gray-400">
-              Players loaded from data:{" "}
-              <span className="text-gray-200 font-semibold">{normalized.length}</span>
+              Players loaded from data: <span className="text-gray-200 font-semibold">{watchlist.length}</span>
             </p>
 
-            <p className="mt-5 text-xs text-gray-500 uppercase tracking-widest">
-              First 20 IDs in watchlist data
-            </p>
+            <p className="mt-5 text-xs text-gray-500 uppercase tracking-widest">First 20 IDs in watchlist data</p>
             <div className="mt-2 rounded-2xl border border-white/10 bg-black/30 p-4 text-sm text-gray-200 overflow-auto">
               <pre className="whitespace-pre-wrap break-words">
-{normalized.slice(0, 20).map((p: any) => p.id).join("\n")}
+{watchlist.slice(0, 20).map((p: any) => p.id).join("\n")}
               </pre>
             </div>
-
-            <p className="mt-5 text-sm text-gray-400">
-              If the Route ID is not in that list, then your Watchlist page is linking to the wrong value
-              (or you have 2 different watchlist files).
-            </p>
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Link
@@ -146,6 +136,24 @@ export default function WatchlistPlayerPage({ params }: { params: { id?: string 
             <p className="mt-3 text-sm text-gray-300 leading-relaxed">
               {player.summary?.trim() ? player.summary : "Scouting summary coming soon."}
             </p>
+          </div>
+
+          <div className="mt-10 flex flex-col sm:flex-row gap-3">
+            <Link
+              href="/watchlist"
+              className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
+                         hover:border-yellow-400/40 hover:text-white transition text-center"
+            >
+              Back to Watchlist
+            </Link>
+
+            <Link
+              href="/watchlist#criteria"
+              className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm text-yellow-300
+                         hover:bg-yellow-400/15 transition text-center"
+            >
+              Watchlist Criteria
+            </Link>
           </div>
         </div>
 
