@@ -8,7 +8,7 @@ const slugify = (s: string) =>
     .replace(/(^-|-$)/g, "");
 
 // MUST match WatchlistClient.tsx
-const playerSlug = (p: any) => slugify(`${p.name}-${p.classYear}-${p.state}`);
+const playerSlug = (p: any) => slugify(p.id || `${p.name}-${p.classYear}` || p.name);
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
