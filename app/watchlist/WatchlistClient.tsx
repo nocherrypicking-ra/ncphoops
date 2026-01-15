@@ -15,6 +15,12 @@ export type WatchlistPlayer = {
   summary?: string;
 };
 
+const slugify = (s: string) =>
+  (s || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
   const opacity =
@@ -76,7 +82,6 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
 
   const classes = useMemo(() => {
     const s = Array.from(new Set(data.map((p) => p.classYear).filter(Boolean)));
-    // numeric sort if possible
     return s.sort((a, b) => Number(a) - Number(b));
   }, [data]);
 
@@ -104,7 +109,6 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
         return matchQuery && matchStar && matchState && matchClass && matchPos;
       })
       .sort((a, b) => {
-        // default sort: stars desc, classYear asc, name asc
         if (b.stars !== a.stars) return b.stars - a.stars;
         const ay = Number(a.classYear);
         const by = Number(b.classYear);
@@ -133,7 +137,10 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
         <div className="flex flex-col gap-3">
           <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
           <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
-            NCP <span className="text-yellow-400 drop-shadow-[0_0_18px_rgba(250,204,21,0.25)]">Watchlist</span>
+            NCP{" "}
+            <span className="text-yellow-400 drop-shadow-[0_0_18px_rgba(250,204,21,0.25)]">
+              Watchlist
+            </span>
           </h1>
           <p className="text-sm text-gray-300 max-w-2xl">
             Filter by stars, state, class, and position. Click a player to view their profile.
@@ -231,10 +238,7 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
                 Reset
               </button>
 
-              <Link
-                href="/watchlist#criteria"
-                className="text-sm text-yellow-400 hover:text-yellow-300 transition"
-              >
+              <Link href="/watchlist#criteria" className="text-sm text-yellow-400 hover:text-yellow-300 transition">
                 Watchlist Criteria →
               </Link>
             </div>
@@ -243,41 +247,41 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
 
         {/* Grid */}
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filtered.map((p) => (
-            <Link
-              key={p.id}
-              href={`/watchlist/${p.id}`}
-              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5
-                         hover:border-yellow-400/50 hover:bg-white/[0.05] transition"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <Stars n={p.stars} />
-                <span className="text-[10px] tracking-widest uppercase text-gray-500">
-                  {p.state}
-                </span>
-              </div>
+          {filtered.map((p) => {
+            const safeId = slugify(p.id || p.name);
 
-              <div className="mt-3">
-                <h3 className="text-lg font-semibold leading-snug group-hover:text-yellow-300 transition">
-                  {p.name}
-                </h3>
-
-                <p className="mt-1 text-sm text-gray-300">
-                  {p.height} <span className="text-gray-500">·</span> {p.position}{" "}
-                  <span className="text-gray-500">·</span> Class of {p.classYear}
-                </p>
-
-                <p className="mt-2 text-xs text-gray-400">
-                  {p.school}
-                </p>
-
-                <div className="mt-4 inline-flex items-center gap-2 text-yellow-400 text-sm">
-                  <span className="group-hover:underline">View profile</span>
-                  <span className="opacity-80">→</span>
+            return (
+              <Link
+                key={p.id}
+                href={`/watchlist/${safeId}`}
+                className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5
+                           hover:border-yellow-400/50 hover:bg-white/[0.05] transition"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <Stars n={p.stars} />
+                  <span className="text-[10px] tracking-widest uppercase text-gray-500">{p.state}</span>
                 </div>
-              </div>
-            </Link>
-          ))}
+
+                <div className="mt-3">
+                  <h3 className="text-lg font-semibold leading-snug group-hover:text-yellow-300 transition">
+                    {p.name}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-gray-300">
+                    {p.height} <span className="text-gray-500">·</span> {p.position}{" "}
+                    <span className="text-gray-500">·</span> Class of {p.classYear}
+                  </p>
+
+                  <p className="mt-2 text-xs text-gray-400">{p.school}</p>
+
+                  <div className="mt-4 inline-flex items-center gap-2 text-yellow-400 text-sm">
+                    <span className="group-hover:underline">View profile</span>
+                    <span className="opacity-80">→</span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
 
         {/* Criteria Footer */}
@@ -286,8 +290,8 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
             Watchlist <span className="text-yellow-400">Criteria</span>
           </h2>
           <p className="mt-3 text-sm text-gray-300 leading-relaxed">
-            NCP Watchlist players are evaluated on production, projectable tools, motor, competition,
-            coachability, and long-term upside — not hype. This list is built for real scouting eyes.
+            NCP Watchlist players are evaluated on production, projectable tools, motor, competition, coachability, and
+            long-term upside — not hype. This list is built for real scouting eyes.
           </p>
           <p className="mt-3 text-xs text-gray-500">
             Want a player evaluated? DM <span className="text-gray-300">@NCPHoops_</span> or visit{" "}
