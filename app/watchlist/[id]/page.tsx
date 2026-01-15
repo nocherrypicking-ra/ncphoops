@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { watchlist } from "../_data/watchlist";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
+
+// Prebuild all player profile routes (fast + SEO)
+export function generateStaticParams() {
+  return watchlist.map((p) => ({ id: p.id }));
+}
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
@@ -27,19 +32,13 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default async function WatchlistPlayerPage(props: {
-  params?: Promise<{ id?: string }> | { id?: string };
-}) {
-  // ✅ Works whether params is normal OR a Promise (covers Next canary behaviors)
-  const resolvedParams =
-    props.params && typeof (props.params as any).then === "function"
-      ? await (props.params as Promise<{ id?: string }>)
-      : (props.params as { id?: string } | undefined);
+export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
+  const routeId = (params?.id || "").trim();
 
-  const routeId = (resolvedParams?.id ?? "").trim();
+  // Primary match: id
+  const player = watchlist.find((p) => p.id === routeId);
 
-  const player = routeId ? watchlist.find((p) => p.id === routeId) : undefined;
-
+  // Clean 404 page if not found
   if (!player) {
     return (
       <div className="mx-auto max-w-4xl px-6 py-16">
@@ -50,25 +49,20 @@ export default async function WatchlistPlayerPage(props: {
         <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-7">
           <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
           <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
-
-          <p className="mt-3 text-sm text-gray-300">
-            Route ID: <span className="text-yellow-400 break-all">{routeId || "(empty)"}</span>
+          <p className="mt-3 text-sm text-gray-400">
+            The player ID <span className="text-yellow-300 break-all">{routeId}</span> doesn’t exist in the watchlist.
           </p>
 
-          <div className="mt-6 text-xs text-gray-500 space-y-2">
-            <p>
-              If Route ID is <span className="text-gray-200">(empty)</span>, the dynamic param isn’t being captured.
-            </p>
-            <p>
-              Confirm path: <span className="text-gray-200">app/watchlist/[id]/page.tsx</span>
-            </p>
-            <p>
-              Also confirm the folder name is exactly: <span className="text-gray-200">[id]</span>
-            </p>
+          <div className="mt-6 flex gap-3">
+            <Link
+              href="/watchlist"
+              className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
+                         hover:border-yellow-400/40 hover:text-white transition"
+            >
+              Back to Watchlist
+            </Link>
           </div>
         </div>
-
-        <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Debug View</p>
       </div>
     );
   }
