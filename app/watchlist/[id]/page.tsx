@@ -7,8 +7,25 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-// MUST match WatchlistClient.tsx
-const playerSlug = (p: any) => slugify(p.id || `${p.name}-${p.classYear}` || p.name);
+/**
+ * ONE universal slug rule:
+ * - Prefer "name-classYear" (stable + readable)
+ * - Fallback to "name"
+ * - Last fallback to "id"
+ *
+ * IMPORTANT: We DO NOT prioritize p.id first, because your dataset has messy ids
+ * (ex: "TX2026", "Profile", etc.) that will never match clean URL slugs.
+ */
+const playerSlug = (p: any) => {
+  const name = (p?.name || "").trim();
+  const year = (p?.classYear || "").trim();
+  const id = (p?.id || "").trim();
+
+  const primary = `${name}-${year}`.trim().replace(/-$/, "");
+  const fallback = name || id;
+
+  return slugify(primary || fallback);
+};
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
@@ -18,7 +35,9 @@ function Stars({ n }: { n: number }) {
   return (
     <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">★</span>
+        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">
+          ★
+        </span>
       ))}
       {count === 0 && <span className="text-gray-600">—</span>}
     </div>
@@ -35,10 +54,18 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
-  const routeId = params?.id || "";
+  const routeId = (params?.id || "").trim();
 
-  const player = watchlist.find((p: any) => playerSlug(p) === routeId);
+  // Try multiple match strategies so NOTHING breaks:
+  const player =
+    // 1) Perfect match vs our universal slug (name-classYear)
+    watchlist.find((p: any) => playerSlug(p) === routeId) ||
+    // 2) Match vs slugified name only (if some links were name-only)
+    watchlist.find((p: any) => slugify(p?.name || "") === routeId) ||
+    // 3) Match vs slugified raw id (in case you had older links)
+    watchlist.find((p: any) => slugify(p?.id || "") === routeId);
 
+  // If not found, show a helpful debug view instead of Next hard 404
   if (!player) {
     return (
       <div className="min-h-screen bg-[#070707] text-white">
@@ -56,14 +83,40 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
 
           <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-7">
             <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
+
             <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
+
             <p className="mt-3 text-sm text-gray-300">
               Route ID: <span className="text-yellow-400 break-all">{routeId}</span>
             </p>
-            <p className="mt-3 text-sm text-gray-400">
-              This means your slug rule didn’t match a player record. (Name/Class/State missing on that record.)
+
+            <p className="mt-3 text-sm text-gray-400 leading-relaxed">
+              This means the URL slug does not match any player record.
+              <br />
+              Fix path is usually: make sure WatchlistClient generates links using the same rule:
+              <span className="text-gray-200"> slugify(`${"{name}-{classYear}"}` )</span>.
             </p>
+
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/watchlist"
+                className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
+                           hover:border-yellow-400/40 hover:text-white transition text-center"
+              >
+                Back to Watchlist
+              </Link>
+
+              <Link
+                href="/watchlist#criteria"
+                className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm text-yellow-300
+                           hover:bg-yellow-400/15 transition text-center"
+              >
+                Watchlist Criteria
+              </Link>
+            </div>
           </div>
+
+          <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Debug View</p>
         </div>
       </div>
     );
