@@ -9,13 +9,21 @@ const slugify = (s: string) =>
     .replace(/(^-|-$)/g, "");
 
 const playerSlug = (p: any) => {
-  const id = (p?.id || "").trim();
-  const name = (p?.name || "").trim();
-  const year = (p?.classYear || "").trim();
-
-  // Your ids in data are already clean like ethan-sheats-2026, so prefer id first.
-  return slugify(id || `${name}-${year}` || name);
+  // Your data ids are already clean like ethan-sheats-2026
+  // So this should be the ONE canonical slug
+  return slugify((p?.id || "").trim() || `${p?.name || ""}-${p?.classYear || ""}` || p?.name || "");
 };
+
+// ✅ This is the BIG fix: it makes Next build each player page
+export function generateStaticParams() {
+  return watchlist.map((p: any) => ({
+    id: playerSlug(p),
+  }));
+}
+
+// If you ever need to allow new ids later without rebuild, set true.
+// For now (stable list), false keeps it strict + predictable.
+export const dynamicParams = false;
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
@@ -41,20 +49,14 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function WatchlistPlayerPage({
-  params,
-}: {
-  params: { id?: string; slug?: string };
-}) {
-  // ✅ WORKS EVEN IF YOUR FOLDER IS [id] OR [slug]
-  const routeId = String(params?.id || params?.slug || "").trim();
+export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
+  const routeId = String(params?.id || "").trim();
 
   const player =
     watchlist.find((p: any) => playerSlug(p) === routeId) ||
     watchlist.find((p: any) => slugify(p?.id || "") === routeId) ||
     watchlist.find((p: any) => slugify(p?.name || "") === routeId);
 
-  // background wrapper
   const Shell = ({ children }: { children: React.ReactNode }) => (
     <div className="min-h-screen bg-[#070707] text-white">
       <div className="pointer-events-none fixed inset-0 opacity-60">
@@ -64,7 +66,6 @@ export default function WatchlistPlayerPage({
     </div>
   );
 
-  // If param is empty OR player missing — show friendly debug (NO hard 404)
   if (!routeId || !player) {
     return (
       <Shell>
@@ -81,32 +82,19 @@ export default function WatchlistPlayerPage({
             <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
 
             <p className="mt-3 text-sm text-gray-300">
-              Route ID:{" "}
-              <span className="text-yellow-400 break-all">{routeId ? routeId : "(empty)"}</span>
+              Route ID: <span className="text-yellow-400 break-all">{routeId ? routeId : "(empty)"}</span>
             </p>
 
-            <p className="mt-4 text-sm text-gray-400 leading-relaxed">
-              If this says <span className="text-gray-200">(empty)</span>, your dynamic folder name is not matching
-              your param key.
-              <br />
-              Folder should be: <span className="text-gray-200">app/watchlist/[id]/page.tsx</span>
-              <br />
-              If your folder is <span className="text-gray-200">[slug]</span>, it will still work now — but keep it consistent.
+            <p className="mt-4 text-sm text-gray-400">
+              If this says <span className="text-gray-200">(empty)</span>, params are not being generated at build time.
+              This file now includes <span className="text-gray-200">generateStaticParams()</span> to fix that.
             </p>
 
             <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 text-xs text-gray-400">
-              <p className="text-gray-300 font-semibold mb-2">Quick checks:</p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>
-                  Confirm you can open: <span className="text-gray-200">/watchlist/ethan-sheats-2026</span>
-                </li>
-                <li>
-                  Confirm your data file is: <span className="text-gray-200">app/watchlist/_data/watchlist.ts</span>
-                </li>
-                <li>
-                  Confirm your ids look like: <span className="text-gray-200">ethan-sheats-2026</span>
-                </li>
-              </ul>
+              <p className="text-gray-300 font-semibold mb-2">First 10 slugs in data:</p>
+              <pre className="whitespace-pre-wrap leading-relaxed">
+                {watchlist.slice(0, 10).map((p: any) => playerSlug(p)).join("\n")}
+              </pre>
             </div>
 
             <p className="mt-8 text-xs text-gray-600">NCP Watchlist • Debug View</p>
@@ -128,14 +116,11 @@ export default function WatchlistPlayerPage({
           </Link>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/watchlist#criteria"
-              className="text-sm text-yellow-400 hover:text-yellow-300 transition"
-            >
+            <Link href="/watchlist#criteria" className="text-sm text-yellow-400 hover:text-yellow-300 transition">
               Watchlist Criteria →
             </Link>
 
-            {/* ✅ C: COPY/SHARE */}
+            {/* ✅ C: COPY + SHARE */}
             <ShareActions label="Share" />
           </div>
         </div>
@@ -145,7 +130,6 @@ export default function WatchlistPlayerPage({
             <div className="flex flex-col gap-2">
               <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
               <Stars n={player.stars} />
-
               <h1 className="text-4xl md:text-5xl font-semibold leading-tight">{player.name}</h1>
 
               <p className="text-sm text-gray-300">
@@ -158,9 +142,7 @@ export default function WatchlistPlayerPage({
               </p>
             </div>
 
-            <span className="hidden sm:inline text-[10px] tracking-widest uppercase text-gray-500">
-              {player.state}
-            </span>
+            <span className="hidden sm:inline text-[10px] tracking-widest uppercase text-gray-500">{player.state}</span>
           </div>
 
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
