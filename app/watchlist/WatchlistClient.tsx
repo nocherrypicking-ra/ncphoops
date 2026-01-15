@@ -21,14 +21,9 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-// One universal slug rule that NEVER depends on state/classYear being present.
-// Priority: id -> name-classYear -> name
-const playerSlug = (p: WatchlistPlayer) => {
-  const a = p?.id?.trim();
-  const b = `${p?.name || ""}-${p?.classYear || ""}`.trim();
-  const c = (p?.name || "").trim();
-  return slugify(a || b || c);
-};
+// ✅ ONE RULE ONLY (locked for the whole site)
+// slug = name-classYear (if classYear missing, it naturally becomes name)
+const makeSlug = (p: WatchlistPlayer) => slugify(`${p.name}-${p.classYear}`);
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
@@ -233,7 +228,7 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
 
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((p) => {
-            const safeId = playerSlug(p);
+            const safeId = makeSlug(p);
 
             return (
               <Link
