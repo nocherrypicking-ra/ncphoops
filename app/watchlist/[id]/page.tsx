@@ -9,9 +9,7 @@ function Stars({ n }: { n: number }) {
   return (
     <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">
-          ★
-        </span>
+        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">★</span>
       ))}
       {count === 0 && <span className="text-gray-600">—</span>}
     </div>
@@ -27,11 +25,16 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
-  const routeId = (params?.id || "").trim();
+export default function WatchlistPlayerPage({ params }: { params: { id?: string } }) {
+  const routeId = String(params?.id ?? "").trim();
 
-  // ✅ Your data ids are already clean slugs. Use them directly.
-  const player = watchlist.find((p: any) => (p?.id || "").trim() === routeId);
+  // normalize ids (trim) just in case
+  const normalized = watchlist.map((p: any) => ({
+    ...p,
+    id: String(p?.id ?? "").trim(),
+  }));
+
+  const player = normalized.find((p: any) => p.id === routeId);
 
   if (!player) {
     return (
@@ -40,7 +43,7 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.08),transparent_45%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.04),transparent_40%)]" />
         </div>
 
-        <div className="relative max-w-4xl mx-auto px-6 py-16">
+        <div className="relative max-w-5xl mx-auto px-6 py-16">
           <Link
             href="/watchlist"
             className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-yellow-300 transition"
@@ -51,13 +54,29 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
           <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-7">
             <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
             <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
-            <p className="mt-3 text-sm text-gray-300">
-              Route ID: <span className="text-yellow-400 break-all">{routeId}</span>
+
+            <p className="mt-4 text-sm text-gray-300">
+              Route ID received:
+              <span className="ml-2 text-yellow-400 break-all">{routeId || "(empty)"}</span>
             </p>
-            <p className="mt-3 text-sm text-gray-400 leading-relaxed">
-              This means the URL didn’t match any player <span className="text-gray-200">id</span> in your data.
-              <br />
-              Expected format: <span className="text-gray-200">firstname-lastname-year</span>.
+
+            <p className="mt-2 text-sm text-gray-400">
+              Players loaded from data:{" "}
+              <span className="text-gray-200 font-semibold">{normalized.length}</span>
+            </p>
+
+            <p className="mt-5 text-xs text-gray-500 uppercase tracking-widest">
+              First 20 IDs in watchlist data
+            </p>
+            <div className="mt-2 rounded-2xl border border-white/10 bg-black/30 p-4 text-sm text-gray-200 overflow-auto">
+              <pre className="whitespace-pre-wrap break-words">
+{normalized.slice(0, 20).map((p: any) => p.id).join("\n")}
+              </pre>
+            </div>
+
+            <p className="mt-5 text-sm text-gray-400">
+              If the Route ID is not in that list, then your Watchlist page is linking to the wrong value
+              (or you have 2 different watchlist files).
             </p>
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
@@ -127,24 +146,6 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
             <p className="mt-3 text-sm text-gray-300 leading-relaxed">
               {player.summary?.trim() ? player.summary : "Scouting summary coming soon."}
             </p>
-          </div>
-
-          <div className="mt-10 flex flex-col sm:flex-row gap-3">
-            <Link
-              href="/watchlist"
-              className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
-                         hover:border-yellow-400/40 hover:text-white transition text-center"
-            >
-              Back to Watchlist
-            </Link>
-
-            <Link
-              href="/watchlist#criteria"
-              className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm text-yellow-300
-                         hover:bg-yellow-400/15 transition text-center"
-            >
-              Watchlist Criteria
-            </Link>
           </div>
         </div>
 
