@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { watchlist } from "../_data/watchlist";
 
 function Stars({ n }: { n: number }) {
@@ -12,9 +9,7 @@ function Stars({ n }: { n: number }) {
   return (
     <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">
-          ★
-        </span>
+        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">★</span>
       ))}
       {count === 0 && <span className="text-gray-600">—</span>}
     </div>
@@ -30,155 +25,80 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function WatchlistPlayerPage() {
-  const params = useParams();
-  const routeId = String(params?.id ?? "").trim();
+export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
+  const routeId = (params?.id || "").trim();
 
-  const player = watchlist.find((p: any) => String(p?.id ?? "").trim() === routeId);
+  // ✅ Match by id ONLY (your data ids are already clean slugs)
+  const player = watchlist.find((p) => p.id === routeId);
 
   if (!player) {
     return (
-      <div className="min-h-screen bg-[#070707] text-white">
-        <div className="pointer-events-none fixed inset-0 opacity-60">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.08),transparent_45%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.04),transparent_40%)]" />
-        </div>
+      <div className="mx-auto max-w-4xl px-6 py-16">
+        <Link href="/watchlist" className="text-sm text-gray-300 hover:text-yellow-300 transition">
+          ← Back to Watchlist
+        </Link>
 
-        <div className="relative max-w-4xl mx-auto px-6 py-16">
-          <Link
-            href="/watchlist"
-            className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-yellow-300 transition"
-          >
-            ← Back to Watchlist
-          </Link>
-
-          <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-7">
-            <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
-            <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
-
-            <p className="mt-3 text-sm text-gray-300">
-              Route ID: <span className="text-yellow-400 break-all">{routeId || "(empty)"}</span>
-            </p>
-
-            <p className="mt-3 text-sm text-gray-400 leading-relaxed">
-              This means the URL didn’t match any player <span className="text-gray-200">id</span> in your data.
-            </p>
-
-            <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/watchlist"
-                className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
-                           hover:border-yellow-400/40 hover:text-white transition text-center"
-              >
-                Back to Watchlist
-              </Link>
-
-              <Link
-                href="/watchlist#criteria"
-                className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm text-yellow-300
-                           hover:bg-yellow-400/15 transition text-center"
-              >
-                Watchlist Criteria
-              </Link>
-            </div>
-          </div>
-
-          <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Debug View</p>
+        <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-7">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
+          <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
+          <p className="mt-3 text-sm text-gray-300">
+            Route ID: <span className="text-yellow-400 break-all">{routeId || "(empty)"}</span>
+          </p>
+          <p className="mt-4 text-xs text-gray-500">
+            If this says (empty), your route param isn’t being captured. If it shows an id that isn’t in your data,
+            your watchlist links are pointing to the wrong value.
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#070707] text-white">
-      {/* subtle background texture */}
-      <div className="pointer-events-none fixed inset-0 opacity-60">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.08),transparent_45%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.04),transparent_40%)]" />
+    <div className="mx-auto max-w-6xl px-6 py-14">
+      <div className="flex items-center justify-between gap-4">
+        <Link href="/watchlist" className="text-sm text-gray-300 hover:text-yellow-300 transition">
+          ← Back to Watchlist
+        </Link>
+        <Link href="/watchlist#criteria" className="text-sm text-yellow-300 hover:text-yellow-200 transition">
+          Watchlist Criteria →
+        </Link>
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 py-14">
-        {/* Top nav */}
-        <div className="flex items-center justify-between">
-          <Link
-            href="/watchlist"
-            className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-yellow-300 transition"
-          >
-            ← Back to Watchlist
-          </Link>
+      <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.03] p-7 md:p-10">
+        <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
 
-          <Link
-            href="/watchlist#criteria"
-            className="text-sm text-yellow-400 hover:text-yellow-300 transition"
-          >
-            Watchlist Criteria →
-          </Link>
+        <div className="mt-3 flex items-center justify-between gap-4">
+          <Stars n={player.stars} />
+          <span className="text-[11px] tracking-widest uppercase text-gray-500">{player.state}</span>
         </div>
 
-        {/* Header card */}
-        <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.03] p-7 md:p-10">
-          <div className="flex flex-col gap-3">
-            <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
+        <h1 className="mt-3 text-4xl md:text-5xl font-semibold leading-tight">{player.name}</h1>
 
-            <div className="flex items-center justify-between gap-4">
-              <Stars n={player.stars} />
-              <span className="text-[10px] tracking-widest uppercase text-gray-500">
-                {player.state}
-              </span>
-            </div>
+        <p className="mt-2 text-sm text-gray-300">
+          {player.height} <span className="text-gray-500">·</span> {player.position}{" "}
+          <span className="text-gray-500">·</span> Class of {player.classYear}
+        </p>
 
-            <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
-              {player.name}
-            </h1>
+        <p className="text-sm text-yellow-400 mt-2">
+          {player.school} <span className="text-gray-500">·</span> {player.state}
+        </p>
 
-            <p className="text-sm text-gray-300">
-              {player.height} <span className="text-gray-500">·</span> {player.position}{" "}
-              <span className="text-gray-500">·</span> Class of {player.classYear}
-            </p>
-
-            <p className="text-sm text-yellow-400">
-              {player.school} <span className="text-gray-500">·</span> {player.state}
-            </p>
-
-            {/* Stats */}
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Stat label="School" value={player.school} />
-              <Stat label="State" value={player.state} />
-              <Stat label="Height" value={player.height} />
-              <Stat label="Position" value={player.position} />
-            </div>
-
-            {/* Summary */}
-            <div className="mt-10">
-              <h2 className="text-lg font-semibold">
-                Scouting <span className="text-yellow-400">Summary</span>
-              </h2>
-              <p className="mt-3 text-sm text-gray-300 leading-relaxed">
-                {player.summary?.trim() ? player.summary : "Scouting summary coming soon."}
-              </p>
-            </div>
-
-            {/* Actions */}
-            <div className="mt-10 flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/watchlist"
-                className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
-                           hover:border-yellow-400/40 hover:text-white transition text-center"
-              >
-                Back to Watchlist
-              </Link>
-
-              <Link
-                href="/watchlist#criteria"
-                className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm text-yellow-300
-                           hover:bg-yellow-400/15 transition text-center"
-              >
-                Watchlist Criteria
-              </Link>
-            </div>
-          </div>
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Stat label="School" value={player.school} />
+          <Stat label="State" value={player.state} />
+          <Stat label="Height" value={player.height} />
+          <Stat label="Position" value={player.position} />
         </div>
 
-        <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Player Profiles</p>
+        <div className="mt-10">
+          <h2 className="text-lg font-semibold">Scouting Summary</h2>
+          <p className="mt-3 text-sm text-gray-300 leading-relaxed">
+            {player.summary?.trim() ? player.summary : "Scouting summary coming soon."}
+          </p>
+        </div>
       </div>
+
+      <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Player Profiles</p>
     </div>
   );
 }
