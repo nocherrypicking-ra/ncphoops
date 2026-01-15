@@ -15,6 +15,53 @@ export type WatchlistPlayer = {
   summary?: string;
 };
 
+function Stars({ n }: { n: number }) {
+  const count = Math.max(0, Math.min(5, n || 0));
+  const opacity =
+    count >= 5 ? "opacity-100" : count === 4 ? "opacity-90" : count === 3 ? "opacity-75" : "opacity-60";
+
+  return (
+    <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
+      {Array.from({ length: count }).map((_, i) => (
+        <span key={i} className="drop-shadow-[0_0_10px_rgba(250,204,21,0.35)]">
+          ★
+        </span>
+      ))}
+      {count === 0 && <span className="text-gray-600">—</span>}
+    </div>
+  );
+}
+
+function Select({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: { label: string; value: string }[];
+}) {
+  return (
+    <label className="block">
+      <span className="block text-[11px] tracking-widest uppercase text-gray-400 mb-2">{label}</span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-xl bg-black/30 border border-white/10 px-3 py-2 text-sm text-white
+                   focus:outline-none focus:ring-2 focus:ring-yellow-400/40"
+      >
+        {options.map((o) => (
+          <option key={o.value} value={o.value} className="bg-[#0b0b0b]">
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
   const [q, setQ] = useState("");
   const [star, setStar] = useState<number | "all">("all");
@@ -27,14 +74,15 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
     return s.sort((a, b) => a.localeCompare(b));
   }, [data]);
 
-  const classYears = useMemo(() => {
-    const y = Array.from(new Set(data.map((p) => p.classYear).filter(Boolean)));
-    return y.sort((a, b) => Number(a) - Number(b));
+  const classes = useMemo(() => {
+    const s = Array.from(new Set(data.map((p) => p.classYear).filter(Boolean)));
+    // numeric sort if possible
+    return s.sort((a, b) => Number(a) - Number(b));
   }, [data]);
 
   const positions = useMemo(() => {
-    const p = Array.from(new Set(data.map((x) => x.position).filter(Boolean)));
-    return p.sort((a, b) => a.localeCompare(b));
+    const s = Array.from(new Set(data.map((p) => p.position).filter(Boolean)));
+    return s.sort((a, b) => a.localeCompare(b));
   }, [data]);
 
   const filtered = useMemo(() => {
@@ -42,20 +90,25 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
 
     return data
       .filter((p) => {
-        if (star !== "all" && p.stars !== star) return false;
-        if (state !== "all" && p.state !== state) return false;
-        if (classYear !== "all" && p.classYear !== classYear) return false;
-        if (position !== "all" && p.position !== position) return false;
+        const matchQuery =
+          !query ||
+          p.name.toLowerCase().includes(query) ||
+          p.school.toLowerCase().includes(query) ||
+          p.state.toLowerCase().includes(query);
 
-        if (!query) return true;
+        const matchStar = star === "all" ? true : p.stars === star;
+        const matchState = state === "all" ? true : p.state === state;
+        const matchClass = classYear === "all" ? true : p.classYear === classYear;
+        const matchPos = position === "all" ? true : p.position === position;
 
-        const hay =
-          `${p.name} ${p.school} ${p.state} ${p.classYear} ${p.position} ${p.height}`.toLowerCase();
-
-        return hay.includes(query);
+        return matchQuery && matchStar && matchState && matchClass && matchPos;
       })
       .sort((a, b) => {
+        // default sort: stars desc, classYear asc, name asc
         if (b.stars !== a.stars) return b.stars - a.stars;
+        const ay = Number(a.classYear);
+        const by = Number(b.classYear);
+        if (!Number.isNaN(ay) && !Number.isNaN(by) && ay !== by) return ay - by;
         return a.name.localeCompare(b.name);
       });
   }, [data, q, star, state, classYear, position]);
@@ -69,151 +122,178 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Filters */}
-      <div className="grid gap-3 lg:grid-cols-12">
-        <div className="lg:col-span-5">
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search name, school, state..."
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-zinc-600"
-          />
-        </div>
-
-        <div className="lg:col-span-2">
-          <select
-            value={star}
-            onChange={(e) => {
-              const v = e.target.value;
-              setStar(v === "all" ? "all" : Number(v));
-            }}
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
-          >
-            <option value="all">All Stars</option>
-            <option value="5">★★★★★</option>
-            <option value="4">★★★★</option>
-            <option value="3">★★★</option>
-            <option value="2">★★</option>
-            <option value="1">★</option>
-          </select>
-        </div>
-
-        <div className="lg:col-span-2">
-          <select
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
-          >
-            <option value="all">All States</option>
-            {states.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="lg:col-span-2">
-          <select
-            value={classYear}
-            onChange={(e) => setClassYear(e.target.value)}
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
-          >
-            <option value="all">All Classes</option>
-            {classYears.map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="lg:col-span-1">
-          <select
-            value={position}
-            onChange={(e) => setPosition(e.target.value)}
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-white outline-none focus:border-zinc-600"
-          >
-            <option value="all">All Pos</option>
-            {positions.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
-        </div>
+    <div className="min-h-screen bg-[#070707] text-white">
+      {/* subtle background texture */}
+      <div className="pointer-events-none fixed inset-0 opacity-60">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.08),transparent_45%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.04),transparent_40%)]" />
       </div>
 
-      {/* Count + Reset */}
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-zinc-400">{filtered.length} players</div>
-        <button
-          onClick={reset}
-          className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2 text-sm text-zinc-200 hover:border-zinc-700 hover:text-white"
-        >
-          Reset
-        </button>
-      </div>
+      <div className="relative max-w-7xl mx-auto px-6 py-14">
+        {/* Header */}
+        <div className="flex flex-col gap-3">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
+          <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
+            NCP <span className="text-yellow-400 drop-shadow-[0_0_18px_rgba(250,204,21,0.25)]">Watchlist</span>
+          </h1>
+          <p className="text-sm text-gray-300 max-w-2xl">
+            Filter by stars, state, class, and position. Click a player to view their profile.
+          </p>
+        </div>
 
-      {/* Cards */}
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((p) => (
-          <Link
-            key={p.id}
-            href={`/watchlist/${p.id}`}
-            className="group relative block overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/40 p-5 shadow-sm transition hover:border-zinc-700 hover:bg-zinc-950/60"
-          >
-            {/* subtle glow */}
-            <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
-              <div className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-white/5 blur-2xl" />
-              <div className="absolute -right-24 -bottom-24 h-56 w-56 rounded-full bg-white/5 blur-2xl" />
+        {/* Controls */}
+        <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            {/* Search */}
+            <div className="md:col-span-4">
+              <label className="block">
+                <span className="block text-[11px] tracking-widest uppercase text-gray-400 mb-2">
+                  Search
+                </span>
+                <input
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder="Name, school, state..."
+                  className="w-full rounded-xl bg-black/30 border border-white/10 px-3 py-2 text-sm text-white
+                             placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/40"
+                />
+              </label>
             </div>
 
-            {/* Top */}
-            <div className="relative flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <div className="text-[11px] tracking-[0.22em] text-zinc-400">
-                  {"★".repeat(p.stars)}
-                </div>
+            {/* Stars */}
+            <div className="md:col-span-2">
+              <Select
+                label="Stars"
+                value={star === "all" ? "all" : String(star)}
+                onChange={(v) => setStar(v === "all" ? "all" : Number(v))}
+                options={[
+                  { label: "All Stars", value: "all" },
+                  { label: "5 Stars", value: "5" },
+                  { label: "4 Stars", value: "4" },
+                  { label: "3 Stars", value: "3" },
+                  { label: "2 Stars", value: "2" },
+                  { label: "1 Star", value: "1" },
+                ]}
+              />
+            </div>
 
-                <div className="mt-2 truncate text-xl font-semibold leading-tight text-white">
+            {/* State */}
+            <div className="md:col-span-2">
+              <Select
+                label="State"
+                value={state}
+                onChange={setState}
+                options={[
+                  { label: "All States", value: "all" },
+                  ...states.map((s) => ({ label: s, value: s })),
+                ]}
+              />
+            </div>
+
+            {/* Class */}
+            <div className="md:col-span-2">
+              <Select
+                label="Class"
+                value={classYear}
+                onChange={setClassYear}
+                options={[
+                  { label: "All Classes", value: "all" },
+                  ...classes.map((c) => ({ label: c, value: c })),
+                ]}
+              />
+            </div>
+
+            {/* Position */}
+            <div className="md:col-span-2">
+              <Select
+                label="Position"
+                value={position}
+                onChange={setPosition}
+                options={[
+                  { label: "All Positions", value: "all" },
+                  ...positions.map((p) => ({ label: p, value: p })),
+                ]}
+              />
+            </div>
+          </div>
+
+          <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="text-sm text-gray-300">
+              <span className="text-yellow-400 font-semibold">{filtered.length}</span>{" "}
+              <span className="text-gray-500">/</span> {data.length} players
+            </p>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={reset}
+                className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
+                           hover:border-yellow-400/40 hover:text-white transition"
+              >
+                Reset
+              </button>
+
+              <Link
+                href="/watchlist#criteria"
+                className="text-sm text-yellow-400 hover:text-yellow-300 transition"
+              >
+                Watchlist Criteria →
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Grid */}
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filtered.map((p) => (
+            <Link
+              key={p.id}
+              href={`/watchlist/${p.id}`}
+              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5
+                         hover:border-yellow-400/50 hover:bg-white/[0.05] transition"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <Stars n={p.stars} />
+                <span className="text-[10px] tracking-widest uppercase text-gray-500">
+                  {p.state}
+                </span>
+              </div>
+
+              <div className="mt-3">
+                <h3 className="text-lg font-semibold leading-snug group-hover:text-yellow-300 transition">
                   {p.name}
+                </h3>
+
+                <p className="mt-1 text-sm text-gray-300">
+                  {p.height} <span className="text-gray-500">·</span> {p.position}{" "}
+                  <span className="text-gray-500">·</span> Class of {p.classYear}
+                </p>
+
+                <p className="mt-2 text-xs text-gray-400">
+                  {p.school}
+                </p>
+
+                <div className="mt-4 inline-flex items-center gap-2 text-yellow-400 text-sm">
+                  <span className="group-hover:underline">View profile</span>
+                  <span className="opacity-80">→</span>
                 </div>
-
-                <div className="mt-1 text-sm text-zinc-400">
-                  {p.height} • {p.position}
-                </div>
               </div>
+            </Link>
+          ))}
+        </div>
 
-              <div className="shrink-0 text-right">
-                <div className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/40 px-3 py-1 text-xs text-zinc-300">
-                  <span className="font-semibold text-white">{p.state}</span>
-                  <span className="h-3 w-px bg-zinc-700" />
-                  <span className="text-zinc-300">{p.classYear}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative my-4 h-px w-full bg-zinc-800/80" />
-
-            {/* Bottom */}
-            <div className="relative flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <div className="truncate text-sm text-zinc-300">{p.school}</div>
-              </div>
-              <div className="shrink-0 text-xs text-zinc-500 transition group-hover:text-zinc-300">
-                View →
-              </div>
-            </div>
-
-            {p.summary ? (
-              <div className="relative mt-3 text-xs leading-relaxed text-zinc-400">
-                {p.summary}
-              </div>
-            ) : null}
-          </Link>
-        ))}
+        {/* Criteria Footer */}
+        <div id="criteria" className="mt-16 rounded-2xl border border-white/10 bg-white/[0.03] p-7">
+          <h2 className="text-xl font-semibold">
+            Watchlist <span className="text-yellow-400">Criteria</span>
+          </h2>
+          <p className="mt-3 text-sm text-gray-300 leading-relaxed">
+            NCP Watchlist players are evaluated on production, projectable tools, motor, competition,
+            coachability, and long-term upside — not hype. This list is built for real scouting eyes.
+          </p>
+          <p className="mt-3 text-xs text-gray-500">
+            Want a player evaluated? DM <span className="text-gray-300">@NCPHoops_</span> or visit{" "}
+            <span className="text-gray-300">NCPHoops.com</span>.
+          </p>
+        </div>
       </div>
     </div>
   );
