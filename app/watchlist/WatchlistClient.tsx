@@ -21,10 +21,14 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-// This is THE one slug rule for the entire site (links + lookup).
-// Name + ClassYear + State gives uniqueness and doesn't require editing your data ids.
-const playerSlug = (p: WatchlistPlayer) =>
-  slugify(`${p.name}-${p.classYear}-${p.state}`);
+// One universal slug rule that NEVER depends on state/classYear being present.
+// Priority: id -> name-classYear -> name
+const playerSlug = (p: WatchlistPlayer) => {
+  const a = p?.id?.trim();
+  const b = `${p?.name || ""}-${p?.classYear || ""}`.trim();
+  const c = (p?.name || "").trim();
+  return slugify(a || b || c);
+};
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
@@ -100,9 +104,9 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
       .filter((p) => {
         const matchQuery =
           !query ||
-          p.name.toLowerCase().includes(query) ||
-          p.school.toLowerCase().includes(query) ||
-          p.state.toLowerCase().includes(query);
+          (p.name || "").toLowerCase().includes(query) ||
+          (p.school || "").toLowerCase().includes(query) ||
+          (p.state || "").toLowerCase().includes(query);
 
         const matchStar = star === "all" ? true : p.stars === star;
         const matchState = state === "all" ? true : p.state === state;
@@ -116,7 +120,7 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
         const ay = Number(a.classYear);
         const by = Number(b.classYear);
         if (!Number.isNaN(ay) && !Number.isNaN(by) && ay !== by) return ay - by;
-        return a.name.localeCompare(b.name);
+        return (a.name || "").localeCompare(b.name || "");
       });
   }, [data, q, star, state, classYear, position]);
 
@@ -182,10 +186,7 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
                 label="State"
                 value={state}
                 onChange={setState}
-                options={[
-                  { label: "All States", value: "all" },
-                  ...states.map((s) => ({ label: s, value: s })),
-                ]}
+                options={[{ label: "All States", value: "all" }, ...states.map((s) => ({ label: s, value: s }))]}
               />
             </div>
 
@@ -194,10 +195,7 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
                 label="Class"
                 value={classYear}
                 onChange={setClassYear}
-                options={[
-                  { label: "All Classes", value: "all" },
-                  ...classes.map((c) => ({ label: c, value: c })),
-                ]}
+                options={[{ label: "All Classes", value: "all" }, ...classes.map((c) => ({ label: c, value: c }))]}
               />
             </div>
 
@@ -206,10 +204,7 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
                 label="Position"
                 value={position}
                 onChange={setPosition}
-                options={[
-                  { label: "All Positions", value: "all" },
-                  ...positions.map((p) => ({ label: p, value: p })),
-                ]}
+                options={[{ label: "All Positions", value: "all" }, ...positions.map((p) => ({ label: p, value: p }))]}
               />
             </div>
           </div>
@@ -279,8 +274,8 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
             Watchlist <span className="text-yellow-400">Criteria</span>
           </h2>
           <p className="mt-3 text-sm text-gray-300 leading-relaxed">
-            NCP Watchlist players are evaluated on production, projectable tools, motor, competition, coachability,
-            and long-term upside — not hype. This list is built for real scouting eyes.
+            NCP Watchlist players are evaluated on production, projectable tools, motor, competition, coachability, and
+            long-term upside — not hype. This list is built for real scouting eyes.
           </p>
           <p className="mt-3 text-xs text-gray-500">
             Want a player evaluated? DM <span className="text-gray-300">@NCPHoops_</span> or visit{" "}
