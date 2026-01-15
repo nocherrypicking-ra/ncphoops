@@ -21,6 +21,11 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+// This is THE one slug rule for the entire site (links + lookup).
+// Name + ClassYear + State gives uniqueness and doesn't require editing your data ids.
+const playerSlug = (p: WatchlistPlayer) =>
+  slugify(`${p.name}-${p.classYear}-${p.state}`);
+
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
   const opacity =
@@ -29,9 +34,7 @@ function Stars({ n }: { n: number }) {
   return (
     <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="drop-shadow-[0_0_10px_rgba(250,204,21,0.35)]">
-          ★
-        </span>
+        <span key={i} className="drop-shadow-[0_0_10px_rgba(250,204,21,0.35)]">★</span>
       ))}
       {count === 0 && <span className="text-gray-600">—</span>}
     </div>
@@ -127,35 +130,27 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
 
   return (
     <div className="min-h-screen bg-[#070707] text-white">
-      {/* subtle background texture */}
       <div className="pointer-events-none fixed inset-0 opacity-60">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.08),transparent_45%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.04),transparent_40%)]" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 py-14">
-        {/* Header */}
         <div className="flex flex-col gap-3">
           <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
           <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
             NCP{" "}
-            <span className="text-yellow-400 drop-shadow-[0_0_18px_rgba(250,204,21,0.25)]">
-              Watchlist
-            </span>
+            <span className="text-yellow-400 drop-shadow-[0_0_18px_rgba(250,204,21,0.25)]">Watchlist</span>
           </h1>
           <p className="text-sm text-gray-300 max-w-2xl">
             Filter by stars, state, class, and position. Click a player to view their profile.
           </p>
         </div>
 
-        {/* Controls */}
         <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-            {/* Search */}
             <div className="md:col-span-4">
               <label className="block">
-                <span className="block text-[11px] tracking-widest uppercase text-gray-400 mb-2">
-                  Search
-                </span>
+                <span className="block text-[11px] tracking-widest uppercase text-gray-400 mb-2">Search</span>
                 <input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
@@ -166,7 +161,6 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
               </label>
             </div>
 
-            {/* Stars */}
             <div className="md:col-span-2">
               <Select
                 label="Stars"
@@ -183,7 +177,6 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
               />
             </div>
 
-            {/* State */}
             <div className="md:col-span-2">
               <Select
                 label="State"
@@ -196,7 +189,6 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
               />
             </div>
 
-            {/* Class */}
             <div className="md:col-span-2">
               <Select
                 label="Class"
@@ -209,7 +201,6 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
               />
             </div>
 
-            {/* Position */}
             <div className="md:col-span-2">
               <Select
                 label="Position"
@@ -245,14 +236,13 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
           </div>
         </div>
 
-        {/* Grid */}
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((p) => {
-            const safeId = slugify(p.id || p.name);
+            const safeId = playerSlug(p);
 
             return (
               <Link
-                key={p.id}
+                key={`${p.id}-${p.name}-${p.classYear}-${p.state}`}
                 href={`/watchlist/${safeId}`}
                 className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5
                            hover:border-yellow-400/50 hover:bg-white/[0.05] transition"
@@ -284,14 +274,13 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
           })}
         </div>
 
-        {/* Criteria Footer */}
         <div id="criteria" className="mt-16 rounded-2xl border border-white/10 bg-white/[0.03] p-7">
           <h2 className="text-xl font-semibold">
             Watchlist <span className="text-yellow-400">Criteria</span>
           </h2>
           <p className="mt-3 text-sm text-gray-300 leading-relaxed">
-            NCP Watchlist players are evaluated on production, projectable tools, motor, competition, coachability, and
-            long-term upside — not hype. This list is built for real scouting eyes.
+            NCP Watchlist players are evaluated on production, projectable tools, motor, competition, coachability,
+            and long-term upside — not hype. This list is built for real scouting eyes.
           </p>
           <p className="mt-3 text-xs text-gray-500">
             Want a player evaluated? DM <span className="text-gray-300">@NCPHoops_</span> or visit{" "}
