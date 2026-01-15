@@ -1,6 +1,7 @@
-export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { watchlist } from "../_data/watchlist";
+
+export const dynamic = "force-dynamic";
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
@@ -10,9 +11,7 @@ function Stars({ n }: { n: number }) {
   return (
     <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">
-          ★
-        </span>
+        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">★</span>
       ))}
       {count === 0 && <span className="text-gray-600">—</span>}
     </div>
@@ -28,25 +27,23 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-// ✅ App Router signature (Next 13+)
-// params is ALWAYS provided when the folder is /[id]/page.tsx
-export default function WatchlistPlayerPage({
-  params,
-}: {
-  params: { id?: string };
+export default async function WatchlistPlayerPage(props: {
+  params?: Promise<{ id?: string }> | { id?: string };
 }) {
-  const routeId = (params?.id ?? "").trim();
+  // ✅ Works whether params is normal OR a Promise (covers Next canary behaviors)
+  const resolvedParams =
+    props.params && typeof (props.params as any).then === "function"
+      ? await (props.params as Promise<{ id?: string }>)
+      : (props.params as { id?: string } | undefined);
 
-  // Match by id (your ids are already slugs like ethan-sheats-2026)
+  const routeId = (resolvedParams?.id ?? "").trim();
+
   const player = routeId ? watchlist.find((p) => p.id === routeId) : undefined;
 
   if (!player) {
     return (
       <div className="mx-auto max-w-4xl px-6 py-16">
-        <Link
-          href="/watchlist"
-          className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-yellow-300 transition"
-        >
+        <Link href="/watchlist" className="text-sm text-gray-300 hover:text-yellow-300 transition">
           ← Back to Watchlist
         </Link>
 
@@ -55,22 +52,18 @@ export default function WatchlistPlayerPage({
           <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
 
           <p className="mt-3 text-sm text-gray-300">
-            Route ID:{" "}
-            <span className="text-yellow-400 break-all">{routeId || "(empty)"}</span>
+            Route ID: <span className="text-yellow-400 break-all">{routeId || "(empty)"}</span>
           </p>
 
-          {/* Helpful debug */}
           <div className="mt-6 text-xs text-gray-500 space-y-2">
             <p>
-              If Route ID is <span className="text-gray-200">(empty)</span>, Next is not capturing the dynamic param.
+              If Route ID is <span className="text-gray-200">(empty)</span>, the dynamic param isn’t being captured.
             </p>
             <p>
-              Confirm the file path is exactly:{" "}
-              <span className="text-gray-200">app/watchlist/[id]/page.tsx</span>
+              Confirm path: <span className="text-gray-200">app/watchlist/[id]/page.tsx</span>
             </p>
-            <p className="text-gray-600">
-              Try opening a direct URL like:{" "}
-              <span className="text-gray-200">/watchlist/ethan-sheats-2026</span>
+            <p>
+              Also confirm the folder name is exactly: <span className="text-gray-200">[id]</span>
             </p>
           </div>
         </div>
