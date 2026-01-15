@@ -1,15 +1,6 @@
 import Link from "next/link";
 import { watchlist } from "../_data/watchlist";
 
-const slugify = (s: string) =>
-  (s || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-
-// ✅ MUST MATCH WatchlistClient.tsx EXACTLY
-const makeSlug = (p: any) => slugify(`${p?.name || ""}-${p?.classYear || ""}`);
-
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
   const opacity =
@@ -39,11 +30,8 @@ function Stat({ label, value }: { label: string; value: string }) {
 export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
   const routeId = (params?.id || "").trim();
 
-  // ✅ Find using the SAME slug rule as WatchlistClient
-  const player =
-    watchlist.find((p: any) => makeSlug(p) === routeId) ||
-    // fallback for players missing classYear (slug becomes just the name)
-    watchlist.find((p: any) => slugify(p?.name || "") === routeId);
+  // ✅ Your data ids are already clean slugs. Use them directly.
+  const player = watchlist.find((p: any) => (p?.id || "").trim() === routeId);
 
   if (!player) {
     return (
@@ -62,18 +50,14 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
 
           <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-7">
             <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
-
             <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
-
             <p className="mt-3 text-sm text-gray-300">
               Route ID: <span className="text-yellow-400 break-all">{routeId}</span>
             </p>
-
             <p className="mt-3 text-sm text-gray-400 leading-relaxed">
-              This means the player slug did not match. Most common reason:
+              This means the URL didn’t match any player <span className="text-gray-200">id</span> in your data.
               <br />
-              Some players have a blank <span className="text-gray-200">classYear</span> or inconsistent{" "}
-              <span className="text-gray-200">name</span> fields.
+              Expected format: <span className="text-gray-200">firstname-lastname-year</span>.
             </p>
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
