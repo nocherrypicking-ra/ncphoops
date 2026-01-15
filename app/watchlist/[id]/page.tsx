@@ -2,143 +2,96 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { watchlist } from "../_data/watchlist";
 
-export default async function PlayerPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const player = watchlist.find((p) => p.id === id);
+function Stars({ n }: { n: number }) {
+  const count = Math.max(0, Math.min(5, n || 0));
+  return (
+    <div className="flex items-center gap-0.5 text-yellow-400">
+      {Array.from({ length: count }).map((_, i) => (
+        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
 
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+      <p className="text-[11px] tracking-widest uppercase text-gray-400">{label}</p>
+      <p className="mt-2 text-lg font-semibold text-white">{value}</p>
+    </div>
+  );
+}
+
+export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
+  const player = watchlist.find((p) => p.id === params.id);
   if (!player) return notFound();
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      <div className="mx-auto max-w-5xl px-4 py-10">
-        {/* Back */}
-        <div className="mb-6">
-          <Link
-            href="/watchlist"
-            className="text-sm text-zinc-300 hover:text-white underline underline-offset-4"
-          >
-            ← Back to Watchlist
-          </Link>
-        </div>
+    <div className="min-h-screen bg-[#070707] text-white">
+      <div className="pointer-events-none fixed inset-0 opacity-60">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.08),transparent_45%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.04),transparent_40%)]" />
+      </div>
 
-        {/* Header Card */}
-        <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 shadow-sm">
-          {/* subtle glow */}
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute -left-28 -top-28 h-64 w-64 rounded-full bg-white/5 blur-2xl" />
-            <div className="absolute -right-28 -bottom-28 h-64 w-64 rounded-full bg-white/5 blur-2xl" />
+      <div className="relative max-w-6xl mx-auto px-6 py-14">
+        <Link
+          href="/watchlist"
+          className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-yellow-300 transition"
+        >
+          ← Back to Watchlist
+        </Link>
+
+        <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.03] p-7 md:p-10">
+          <div className="flex flex-col gap-2">
+            <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
+            <Stars n={player.stars} />
+            <h1 className="text-4xl md:text-5xl font-semibold leading-tight">{player.name}</h1>
+
+            <p className="text-sm text-gray-300">
+              {player.height} <span className="text-gray-500">·</span> {player.position}{" "}
+              <span className="text-gray-500">·</span> Class of {player.classYear}
+            </p>
+
+            <p className="text-sm text-yellow-400 mt-1">
+              {player.school} <span className="text-gray-500">·</span> {player.state}
+            </p>
           </div>
 
-          <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-            <div className="min-w-0">
-              <div className="text-[11px] tracking-[0.22em] text-zinc-400">
-                {"★".repeat(player.stars)}
-              </div>
-
-              <h1 className="mt-2 truncate text-3xl font-semibold leading-tight">
-                {player.name}
-              </h1>
-
-              <div className="mt-2 text-zinc-300">
-                {player.height} • {player.position} • Class of {player.classYear}
-              </div>
-
-              <div className="mt-3 text-sm text-zinc-400">{player.school}</div>
-            </div>
-
-            <div className="shrink-0">
-              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/40 px-4 py-2 text-sm text-zinc-300">
-                <span className="font-semibold text-white">{player.state}</span>
-                <span className="h-4 w-px bg-zinc-700" />
-                <span className="text-zinc-300">{player.classYear}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Info Grid */}
-        <div className="mt-6 grid gap-6 lg:grid-cols-12">
-          {/* Left */}
-          <div className="lg:col-span-8">
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6">
-              <div className="text-sm font-semibold text-white">Profile</div>
-              <div className="mt-1 text-sm text-zinc-400">
-                Quick snapshot + scouting notes
-              </div>
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 text-sm">
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-                  <div className="text-xs text-zinc-500">School</div>
-                  <div className="mt-1 text-zinc-200">{player.school}</div>
-                </div>
-
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-                  <div className="text-xs text-zinc-500">State</div>
-                  <div className="mt-1 text-zinc-200">{player.state}</div>
-                </div>
-
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-                  <div className="text-xs text-zinc-500">Height</div>
-                  <div className="mt-1 text-zinc-200">{player.height}</div>
-                </div>
-
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
-                  <div className="text-xs text-zinc-500">Position</div>
-                  <div className="mt-1 text-zinc-200">{player.position}</div>
-                </div>
-              </div>
-
-              {player.summary ? (
-                <div className="mt-6 border-t border-zinc-800 pt-5">
-                  <div className="text-sm font-semibold text-white">
-                    Scouting Summary
-                  </div>
-                  <div className="mt-2 text-sm leading-relaxed text-zinc-300">
-                    {player.summary}
-                  </div>
-                </div>
-              ) : (
-                <div className="mt-6 border-t border-zinc-800 pt-5 text-sm text-zinc-400">
-                  Scouting Summary coming soon.
-                </div>
-              )}
-            </div>
+          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Stat label="School" value={player.school} />
+            <Stat label="State" value={player.state} />
+            <Stat label="Height" value={player.height} />
+            <Stat label="Position" value={player.position} />
           </div>
 
-          {/* Right */}
-          <div className="lg:col-span-4">
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6">
-              <div className="text-sm font-semibold text-white">Actions</div>
-              <div className="mt-1 text-sm text-zinc-400">
-                Quick links for the workflow
-              </div>
+          <div className="mt-10">
+            <h2 className="text-lg font-semibold">Scouting Summary</h2>
+            <p className="mt-3 text-sm text-gray-300 leading-relaxed">
+              {player.summary?.trim() ? player.summary : "Scouting summary coming soon."}
+            </p>
+          </div>
 
-              <div className="mt-5 space-y-3">
-                <Link
-                  href="/watchlist"
-                  className="block rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 text-sm text-zinc-200 hover:border-zinc-700 hover:text-white"
-                >
-                  Back to Watchlist
-                </Link>
+          <div className="mt-10 flex flex-col sm:flex-row gap-3">
+            <Link
+              href="/watchlist"
+              className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
+                         hover:border-yellow-400/40 hover:text-white transition text-center"
+            >
+              Back to Watchlist
+            </Link>
 
-                <a
-                  href="#"
-                  className="block rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 text-sm text-zinc-200 hover:border-zinc-700 hover:text-white"
-                >
-                  Share (coming soon)
-                </a>
-              </div>
-
-              <div className="mt-6 border-t border-zinc-800 pt-4 text-xs text-zinc-500">
-                NCP Watchlist • Player Profiles
-              </div>
-            </div>
+            <Link
+              href="/watchlist#criteria"
+              className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm text-yellow-300
+                         hover:bg-yellow-400/15 transition text-center"
+            >
+              Watchlist Criteria
+            </Link>
           </div>
         </div>
+
+        <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Player Profiles</p>
       </div>
     </div>
   );
