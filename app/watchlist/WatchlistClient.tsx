@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useMemo, useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 
 export type WatchlistPlayer = {
   id: string;
@@ -66,9 +65,6 @@ function clamp(n: number, min: number, max: number) {
 }
 
 export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
   const [q, setQ] = useState("");
   const [star, setStar] = useState<number | "all">("all");
   const [state, setState] = useState("all");
@@ -77,19 +73,7 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
 
   // Pagination
   const PER_PAGE = 12;
-
-  const initialPage = useMemo(() => {
-    const raw = searchParams.get("page");
-    const num = raw ? Number(raw) : 1;
-    return Number.isFinite(num) ? clamp(num, 1, 9999) : 1;
-  }, [searchParams]);
-
-  const [page, setPage] = useState(initialPage);
-
-  // If URL page changes externally, sync state
-  useEffect(() => {
-    setPage(initialPage);
-  }, [initialPage]);
+  const [page, setPage] = useState(1);
 
   const states = useMemo(() => {
     const s = Array.from(new Set(data.map((p) => p.state).filter(Boolean)));
@@ -136,19 +120,9 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
   const totalPages = useMemo(() => Math.max(1, Math.ceil(filtered.length / PER_PAGE)), [filtered.length]);
   const safePage = clamp(page, 1, totalPages);
 
-  // Keep URL in sync (so you can share /watchlist?page=3)
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (safePage <= 1) params.delete("page");
-    else params.set("page", String(safePage));
-    router.replace(`/watchlist?${params.toString()}`, { scroll: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [safePage]);
-
   // When filters change, go back to page 1
   useEffect(() => {
     setPage(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, star, state, classYear, position]);
 
   const pageItems = useMemo(() => {
