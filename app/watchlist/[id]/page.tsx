@@ -7,6 +7,9 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+// MUST match WatchlistClient.tsx
+const playerSlug = (p: any) => slugify(`${p.name}-${p.classYear}-${p.state}`);
+
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
   const opacity =
@@ -15,9 +18,7 @@ function Stars({ n }: { n: number }) {
   return (
     <div className={`flex items-center gap-0.5 text-yellow-400 ${opacity}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">
-          ★
-        </span>
+        <span key={i} className="drop-shadow-[0_0_12px_rgba(250,204,21,0.35)]">★</span>
       ))}
       {count === 0 && <span className="text-gray-600">—</span>}
     </div>
@@ -36,14 +37,8 @@ function Stat({ label, value }: { label: string; value: string }) {
 export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
   const routeId = params?.id || "";
 
-  // Match by slug of id OR name (so it works even if data ids are messy)
-  const player =
-    watchlist.find((p: any) => slugify(p?.id) === routeId) ||
-    watchlist.find((p: any) => slugify(p?.name) === routeId) ||
-    watchlist.find((p: any) => slugify(`${p?.name}-${p?.classYear}`) === routeId);
+  const player = watchlist.find((p: any) => playerSlug(p) === routeId);
 
-  // IMPORTANT: Do NOT call notFound() here.
-  // We render a "not found" UI so you can debug without Next 404 masking the issue.
   if (!player) {
     return (
       <div className="min-h-screen bg-[#070707] text-white">
@@ -61,42 +56,14 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
 
           <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-7">
             <p className="text-[11px] tracking-[0.35em] uppercase text-gray-400">NOCHERRYPICKING</p>
-
-            <h1 className="mt-3 text-3xl md:text-4xl font-semibold">
-              Player not found
-            </h1>
-
+            <h1 className="mt-3 text-3xl md:text-4xl font-semibold">Player not found</h1>
             <p className="mt-3 text-sm text-gray-300">
-              Route ID:
-              <span className="ml-2 text-yellow-400 break-all">{routeId}</span>
+              Route ID: <span className="text-yellow-400 break-all">{routeId}</span>
             </p>
-
             <p className="mt-3 text-sm text-gray-400">
-              This usually means the player’s <span className="text-gray-200">id</span> in your data file doesn’t match
-              what the URL is using. Easiest fix is to make sure each player has a clean slug ID like{" "}
-              <span className="text-gray-200">ethan-sheats-2026</span>.
+              This means your slug rule didn’t match a player record. (Name/Class/State missing on that record.)
             </p>
-
-            <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/watchlist"
-                className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm text-gray-200
-                           hover:border-yellow-400/40 hover:text-white transition text-center"
-              >
-                Go back
-              </Link>
-
-              <Link
-                href="/watchlist#criteria"
-                className="rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm text-yellow-300
-                           hover:bg-yellow-400/15 transition text-center"
-              >
-                Watchlist Criteria
-              </Link>
-            </div>
           </div>
-
-          <p className="mt-10 text-xs text-gray-600">NCP Watchlist • Debug View</p>
         </div>
       </div>
     );
