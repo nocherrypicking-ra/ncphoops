@@ -7,25 +7,8 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-/**
- * ONE universal slug rule:
- * - Prefer "name-classYear" (stable + readable)
- * - Fallback to "name"
- * - Last fallback to "id"
- *
- * IMPORTANT: We DO NOT prioritize p.id first, because your dataset has messy ids
- * (ex: "TX2026", "Profile", etc.) that will never match clean URL slugs.
- */
-const playerSlug = (p: any) => {
-  const name = (p?.name || "").trim();
-  const year = (p?.classYear || "").trim();
-  const id = (p?.id || "").trim();
-
-  const primary = `${name}-${year}`.trim().replace(/-$/, "");
-  const fallback = name || id;
-
-  return slugify(primary || fallback);
-};
+// ✅ MUST MATCH WatchlistClient.tsx EXACTLY
+const makeSlug = (p: any) => slugify(`${p?.name || ""}-${p?.classYear || ""}`);
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
@@ -56,16 +39,12 @@ function Stat({ label, value }: { label: string; value: string }) {
 export default function WatchlistPlayerPage({ params }: { params: { id: string } }) {
   const routeId = (params?.id || "").trim();
 
-  // Try multiple match strategies so NOTHING breaks:
+  // ✅ Find using the SAME slug rule as WatchlistClient
   const player =
-    // 1) Perfect match vs our universal slug (name-classYear)
-    watchlist.find((p: any) => playerSlug(p) === routeId) ||
-    // 2) Match vs slugified name only (if some links were name-only)
-    watchlist.find((p: any) => slugify(p?.name || "") === routeId) ||
-    // 3) Match vs slugified raw id (in case you had older links)
-    watchlist.find((p: any) => slugify(p?.id || "") === routeId);
+    watchlist.find((p: any) => makeSlug(p) === routeId) ||
+    // fallback for players missing classYear (slug becomes just the name)
+    watchlist.find((p: any) => slugify(p?.name || "") === routeId);
 
-  // If not found, show a helpful debug view instead of Next hard 404
   if (!player) {
     return (
       <div className="min-h-screen bg-[#070707] text-white">
@@ -91,10 +70,10 @@ export default function WatchlistPlayerPage({ params }: { params: { id: string }
             </p>
 
             <p className="mt-3 text-sm text-gray-400 leading-relaxed">
-              This means the URL slug does not match any player record.
+              This means the player slug did not match. Most common reason:
               <br />
-              Fix path is usually: make sure WatchlistClient generates links using the same rule:
-              <span className="text-gray-200"> slugify(`${"{name}-{classYear}"}` )</span>.
+              Some players have a blank <span className="text-gray-200">classYear</span> or inconsistent{" "}
+              <span className="text-gray-200">name</span> fields.
             </p>
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
