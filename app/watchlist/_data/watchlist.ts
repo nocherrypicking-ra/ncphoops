@@ -1,4 +1,18 @@
-import type { WatchlistPlayer } from "../WatchlistClient";
+export type WatchlistPlayer = {
+  id: string;
+  name: string;
+  height: string;
+  position: string;
+  classYear: string;
+  school: string;
+  state: string;
+  stars: number; // 1–5
+  summary?: string;
+};
+
+export const watchlist: WatchlistPlayer[] = [
+  // keep your players exactly as-is below
+];
 
 export const watchlist: WatchlistPlayer[] = [
   // 5★
