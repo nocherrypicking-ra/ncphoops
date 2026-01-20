@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { watchlist } from "@/data/watchlist";
+import { watchlist } from "@/app/watchlist/_data/watchlist";
 
 export default function PlayerPage({ params }: { params: { id: string } }) {
   const routeId = params?.id;
