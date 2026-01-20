@@ -700,6 +700,8 @@ export const watchlist: WatchlistPlayer[] = [
     state: "TX",
     stars: 1,
   },
+
+  // Extra name
   {
     id: "shawn-hall-2028",
     name: "Shawn Hall",
