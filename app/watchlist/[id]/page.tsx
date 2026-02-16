@@ -3,8 +3,6 @@ import { watchlist as players } from "../_data/watchlist"
 
 export default function PlayerPage({ params }: { params: { id: string } }) {
 const player = players.find((p) => p.id === params.id)
-    (p) => p.slug === params.id
-  )
 
   if (!player) return notFound()
 
