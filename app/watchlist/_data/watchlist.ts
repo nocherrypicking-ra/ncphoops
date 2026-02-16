@@ -10,7 +10,6 @@ export type WatchlistPlayer = {
   summary?: string;
 };
 
-export const watchlist: WatchlistPlayer[] = [
   // keep your players exactly as-is below
 ];
 
