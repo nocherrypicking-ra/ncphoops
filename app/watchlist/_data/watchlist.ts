@@ -34,6 +34,7 @@ summary: "JJ Andrews is a once-in-a-class, physical scoring wing who immediately
     school: "Denton HS",
     state: "TX",
     stars: 5,
+    summary: "Ethan Sheats is a 6’9 stretch big with fluid athleticism, touch, and expanding versatility. He’s already a threat beyond the arc with smooth shooting mechanics, while his frame and mobility let him operate comfortably both in the paint and on the perimeter. An explosive lob threat with strong finishing instincts, Sheats uses length, timing, and footwork to dominate the interior. He moves with natural fluidity, showing long-term versatility — capable of defending in space, running the floor, and developing into a modern big who can stretch, rim-run, and switch defensively. His ceiling continues to rise as his confidence and consistency grow, projecting him as a high-upside forward with the tools to anchor a frontcourt and stretch defenses. Committed to the University of Omaha, Sheats combines size, skill, and athleticism to make an immediate impact."
   },
 
   // 4★
@@ -46,6 +47,7 @@ summary: "JJ Andrews is a once-in-a-class, physical scoring wing who immediately
     school: "Maryland Commit",
     state: "MD",
     stars: 4,
+    summary:"Austin Brown is arguably the best shooter in his class — a smooth, confident perimeter threat whose touch and form stand out immediately. At 6’5, he brings ideal size for a scoring wing and has built his reputation on consistency, spacing, and shot-making under pressure. His shooting mechanics are clean, repeatable, and effortless — whether off the catch, off movement, or pulling up in rhythm. He stretches defenses and creates gravity the moment he crosses half court. Beyond his jumper, Brown shows improved comfort attacking closeouts and finishing with touch around the rim. Defensively, he competes with effort and positioning, embracing the challenge of guarding bigger wings. His poise and maturity fit the mold of a player who can contribute immediately at the next level.A marksman with confidence and range, Brown’s shooting alone makes him a difference-maker — and his continued growth as a secondary creator only raises his ceiling."
   },
   {
     id: "zvon-king-2026",
