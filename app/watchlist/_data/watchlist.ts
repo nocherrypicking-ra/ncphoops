@@ -11,7 +11,6 @@ export type WatchlistPlayer = {
 };
 
   // keep your players exactly as-is below
-];
 
 export const watchlist: WatchlistPlayer[] = [
   // 5★
