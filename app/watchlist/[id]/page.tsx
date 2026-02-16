@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import players from "@/data/watchlist" // ← wherever your player data lives
+import { watchlist as players } from "../_data/watchlist"
 
 export default function PlayerPage({ params }: { params: { id: string } }) {
   const player = players.find(
