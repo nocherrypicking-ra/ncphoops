@@ -18,6 +18,9 @@ export default function PlayerPage() {
       {player ? (
         <>
    <h1 className="mt-6 text-3xl font-bold">{player.name}</h1>
+<div className="mt-2 text-yellow-400 text-lg">
+  {"★".repeat(player.stars)}
+</div>
 
 <p className="mt-2 text-zinc-400">
   {player.height} • {player.position} • Class of {player.classYear}
