@@ -32,7 +32,7 @@ export const watchlist: WatchlistPlayer[] = [
     school: "Denton HS",
     state: "TX",
     stars: 5,
-    summary: `c`,
+    summary: `Ethan Sheats is a 6’9 stretch big with fluid athleticism, touch, and expanding versatility. He’s already a threat beyond the arc with smooth shooting mechanics, while his frame and mobility let him operate comfortably both in the paint and on the perimeter. An explosive lob threat with strong finishing instincts, Sheats uses length, timing, and footwork to dominate the interior. He moves with natural fluidity, showing long-term versatility — capable of defending in space, running the floor, and developing into a modern big who can stretch, rim-run, and switch defensively. His ceiling continues to rise as his confidence and consistency grow, projecting him as a high-upside forward with the tools to anchor a frontcourt and stretch defenses. Committed to the University of Omaha, Sheats combines size, skill, and athleticism to make an immediate impact`,
   },
 
   // 4★
