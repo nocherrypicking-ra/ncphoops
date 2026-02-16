@@ -1,12 +1,19 @@
+"use client";
+
+import { useParams } from "next/navigation";
 import { watchlist as players } from "../_data/watchlist";
 
-export default function PlayerPage({ params }: { params: { id: string } }) {
-  const id = params?.id ?? "";
+export default function PlayerPage() {
+  const params = useParams<{ id: string }>();
+  const id = (params?.id as string) ?? "";
+
   const player = players.find((p) => p.id === id);
 
   return (
     <div className="max-w-5xl mx-auto py-16 px-6 text-white">
-      <a href="/watchlist" className="text-sm text-yellow-400">← Back to Watchlist</a>
+      <a href="/watchlist" className="text-sm text-yellow-400">
+        ← Back to Watchlist
+      </a>
 
       {player ? (
         <>
@@ -14,7 +21,9 @@ export default function PlayerPage({ params }: { params: { id: string } }) {
           <p className="mt-2 text-zinc-400">
             {player.height} • {player.position} • Class of {player.classYear}
           </p>
-          <p className="mt-3 text-zinc-300">{player.school} • {player.state}</p>
+          <p className="mt-3 text-zinc-300">
+            {player.school} • {player.state}
+          </p>
         </>
       ) : (
         <>
