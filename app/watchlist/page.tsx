@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { players } from "../../data/players"
 import WatchlistClient from "./WatchlistClient";
 import { watchlist } from "./_data/watchlist";
