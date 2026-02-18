@@ -263,7 +263,7 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
           {pageItems.map((p) => (
             <Link
               key={p.id}
-              href={`/watchlist/${p.id}`}
+href={`/watchlist/${p.slug}`}
               className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5
                          hover:border-yellow-400/50 hover:bg-white/[0.05] transition"
             >
