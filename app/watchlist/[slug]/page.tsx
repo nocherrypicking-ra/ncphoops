@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { notFound } from "next/navigation"
-import { players } from "@/data/players" // adjust if your path differs
+import { players } from "../../../data/players"
 
 export default function PlayerProfilePage({
   params,
