@@ -14,7 +14,9 @@ export type Player = {
   college?: string
 }
 
-export const players: Player[] = [
+// data/players.ts
+
+export const players = [
   {
     id: "jj-andrews",
     slug: "jj-andrews",
