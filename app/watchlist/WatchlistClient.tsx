@@ -7,7 +7,7 @@ export type WatchlistPlayer = {
   id: string;
   slug: string;
   name: string;
-  height: string;
+height?: string;
   position: string;
   classYear: string;
   school: string;
