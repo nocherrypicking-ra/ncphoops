@@ -5,15 +5,17 @@ import { useMemo, useState, useEffect } from "react";
 
 export type WatchlistPlayer = {
   id: string;
+  slug: string;
   name: string;
   height: string;
   position: string;
   classYear: string;
   school: string;
   state: string;
-  stars: number; // 1–5
+  stars: number;
   summary?: string;
 };
+
 
 function Stars({ n }: { n: number }) {
   const count = Math.max(0, Math.min(5, n || 0));
