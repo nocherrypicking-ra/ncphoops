@@ -9,7 +9,16 @@ export default function PlayerProfilePage({
 }) {
   const player = players.find(   (p: any) => p.slug === params.slug || p.id === params.slug )
 
-  if (!player) return notFound()
+if (!player) {
+  return (
+    <div style={{ padding: 24, fontFamily: "monospace" }}>
+      <h1>PLAYER NOT FOUND</h1>
+      <p><b>params.slug:</b> {params.slug}</p>
+      <p><b>available ids:</b> {players.map((p: any) => p.id).join(", ")}</p>
+      <p><b>available slugs:</b> {players.map((p: any) => p.slug).join(", ")}</p>
+    </div>
+  )
+}
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
