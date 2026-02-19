@@ -26,7 +26,7 @@ export const players = [
     classYear: 2026,
     position: "G/F",
     stars: 5,
-    image: "/players/placeholder.jpg",
+image: "/placeholder.jpg.webp",
     summary:
       "Physical scoring wing who sets the tone. Downhill force, finishes through traffic, and brings disruptive defensive energy.",
     college: "Arkansas",
@@ -40,7 +40,7 @@ export const players = [
     classYear: 2026,
     position: "F/C",
     stars: 5,
-    image: "/players/placeholder.jpg",
+image: "/placeholder.jpg.webp",
     summary:
       "Versatile frontcourt piece with size and skill. Reliable production and strong two-way presence.",
   },
