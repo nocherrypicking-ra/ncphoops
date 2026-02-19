@@ -14,7 +14,7 @@ export default async function PlayerProfilePage({ params }: { params: any }) {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
 <div className="grid gap-8 lg:grid-cols-[360px,1fr]">
-        <div className="rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/60">
+<div className="self-start w-full max-w-[360px] rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/60">
 <div className="relative h-[420px] w-full">
             <Image
               src={player.image ?? "/players/placeholder.jpg"}
