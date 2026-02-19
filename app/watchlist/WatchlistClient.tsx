@@ -219,7 +219,10 @@ export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
                 label="Class"
                 value={classYear}
                 onChange={setClassYear}
-                options={[{ label: "All Classes", value: "all" }, ...classes.map((c) => ({ label: c, value: c }))]}
+options={[
+  { label: "All Classes", value: "all" },
+  ...classes.map((c) => ({ label: String(c), value: String(c) })),
+]}
               />
             </div>
 
