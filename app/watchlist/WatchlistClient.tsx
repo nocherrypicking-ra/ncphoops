@@ -9,7 +9,7 @@ export type WatchlistPlayer = {
   name: string;
 height?: string;
   position: string;
-  classYear: string;
+classYear: number | string;
   school: string;
   state: string;
   stars: number;
