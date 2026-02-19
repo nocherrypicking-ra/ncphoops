@@ -7,7 +7,7 @@ export default function PlayerProfilePage({
 }: {
   params: { slug: string }
 }) {
-  const player = players.find((p) => p.slug === params.slug)
+  const player = players.find(   (p: any) => p.slug === params.slug || p.id === params.slug )
 
   if (!player) return notFound()
 
