@@ -7,7 +7,11 @@ export default function PlayerProfilePage({
 }: {
   params: { slug: string }
 }) {
-  const player = players.find(   (p: any) => p.slug === params.slug || p.id === params.slug )
+  const slug = params?.slug
+
+const player = players.find(
+  (p: any) => p.slug === slug || p.id === slug
+)
 
 if (!player) {
   return (
