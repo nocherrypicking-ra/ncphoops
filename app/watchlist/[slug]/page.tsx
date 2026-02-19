@@ -2,27 +2,14 @@ import Image from "next/image"
 import { notFound } from "next/navigation"
 import { players } from "../../../data/players"
 
-export default function PlayerProfilePage({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  const slug = params?.slug
+export default async function PlayerProfilePage({ params }: { params: any }) {
+  // In some Next/Turbopack builds, params can behave like a Promise.
+  const resolvedParams = await params
+  const slug = resolvedParams?.slug
 
-const player = players.find(
-  (p: any) => p.slug === slug || p.id === slug
-)
+  const player = players.find((p: any) => p.slug === slug || p.id === slug)
 
-if (!player) {
-  return (
-    <div style={{ padding: 24, fontFamily: "monospace" }}>
-      <h1>PLAYER NOT FOUND</h1>
-      <p><b>params.slug:</b> {params.slug}</p>
-      <p><b>available ids:</b> {players.map((p: any) => p.id).join(", ")}</p>
-      <p><b>available slugs:</b> {players.map((p: any) => p.slug).join(", ")}</p>
-    </div>
-  )
-}
+  if (!player) return notFound()
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
@@ -51,16 +38,14 @@ if (!player) {
           </div>
 
           <div className="mt-4 text-yellow-300 text-xl">
-            {"★".repeat(player.stars)}
+            {"★".repeat(player.stars ?? 0)}
             <span className="text-white/60 text-sm ml-3">
-              {player.stars}-Star
+              {player.stars ?? 0}-Star
             </span>
           </div>
 
           {player.summary ? (
-            <p className="mt-6 text-white/80 leading-relaxed">
-              {player.summary}
-            </p>
+            <p className="mt-6 text-white/80 leading-relaxed">{player.summary}</p>
           ) : null}
         </div>
       </div>
