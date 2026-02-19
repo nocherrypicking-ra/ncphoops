@@ -6,7 +6,7 @@ export default async function PlayerProfilePage({ params }: { params: any }) {
   const resolvedParams = await params
   const slug = resolvedParams?.slug
 
-  const player = players.find((p: any) => p.slug === slug || p.id === slug)
+const player = players.find((p: any) => p.slug === slug || p.id === slug) as any
   if (!player) return notFound()
 
   return (
