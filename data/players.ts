@@ -12,6 +12,10 @@ export type Player = {
   image?: string
   summary?: string
   college?: string
+  height?: string
+  weight?: string
+}
+
 }
 
 // data/players.ts
