@@ -16,8 +16,6 @@ export type Player = {
   weight?: string
 }
 
-}
-
 // data/players.ts
 
 export const players = [
