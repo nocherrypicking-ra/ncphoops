@@ -4,15 +4,18 @@ export type Player = {
   id: string
   slug: string
   name: string
-  school?: string
-  state?: string
-  classYear?: number
-  position?: string
-  stars?: number
-  height?: string
+  school: string
+  state: string
+  classYear: number
+  position: string
+  stars: number
   image?: string
   summary?: string
   college?: string
+  height?: string
+  weight?: string
+  wingspan?: string
+  offers?: string
   stats?: string
 }
 
