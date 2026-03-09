@@ -21,8 +21,7 @@ export type Player = {
 
 // data/players.ts
 
-export const players = [
-  {
+export const players: Player[] = [  {
     id: "jj-andrews",
     slug: "jj-andrews",
     name: "JJ Andrews",
