@@ -14,6 +14,9 @@ export type Player = {
   college?: string
   height?: string
   weight?: string
+  wingspan?: string
+  offers?: string
+  stats?: string
 }
 
 // data/players.ts
