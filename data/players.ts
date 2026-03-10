@@ -158,8 +158,7 @@ position: "Guard",
 stars: 4,
 height: "6'4",
 image: "/players/jayden-tyeskie.jpg",
-summary: "Deadeye sniper. The ball barely touches the rim when he shoots. With a high release point and smooth mechanics, Tyeskie is one of the most dangerous shooters in East Texas. He can heat up quickly, punishing defenses with lethal one-dribble pull-ups, shot fakes, and jab steps to attack closeouts. High-IQ guard with excellent shot selection and a low turnover count — capable of filling it up when in rhythm. Defensively, his long, active arms stand out, constantly agitating ball handlers and big wings, creating disruption and tipping the balance in his team’s favor.
-"
+summary: "Deadeye sniper. The ball barely touches the rim when he shoots. With a high release point and smooth mechanics, Tyeskie is one of the most dangerous shooters in East Texas. He can heat up quickly, punishing defenses with lethal one-dribble pull-ups, shot fakes, and jab steps to attack closeouts. High-IQ guard with excellent shot selection and a low turnover count — capable of filling it up when in rhythm. Defensively, his long, active arms stand out, constantly agitating ball handlers and big wings, creating disruption and tipping the balance in his team’s favor."
 },
 
 {
@@ -484,7 +483,7 @@ stars: 2,
 height: "5'10",
 image: "/players/zaybreion-cooper.jpg",
 summary: "Zaybreion Cooper is an electric, high-energy guard whose skill, motor, and confidence make him one of the most exciting young prospects in East Texas. At 5’10, he plays with a fiery, passionate edge and controls the floor with elite quickness and command. Cooper is an elite ballhandler with a shifty, unpredictable rhythm, constantly putting defenders on skates and creating opportunities off the bounce. His court vision is special, delivering on-time passes in tight spaces. Offensively, he’s a deep-range streaky shooter who can heat up fast and swing momentum with confidence. He’s also a strong finisher for his size, using creativity, body control, and touch to convert in traffic. On defense, he thrives — earning Defensive Player of the Year honors last season with relentless pressure, quick hands, and pride in every assignment. A skilled, competitive guard with elite handle, defensive impact, and swagger, Cooper already proves he belongs among the best in his class."
-}
+},
 
 {
 id: "kaden-williams",
