@@ -8,7 +8,7 @@ export type Player = {
   state: string
   classYear: number
   position: string
-  stars?: number
+  stars: number
   height?: string
   image?: string
   summary?: string
