@@ -6,7 +6,7 @@ export type Player = {
   name: string
   school?: string
   state?: string
-  classYear?: number
+  classYear: number
   position: string
   stars?: number
   height?: string
