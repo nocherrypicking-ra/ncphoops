@@ -1,3 +1,5 @@
+
+
 export type Player = {
   id: string
   slug: string
@@ -128,8 +130,7 @@ position: "F/C",
 stars: 4,
 height: "6'9",
 image: "/players/cale-clingan.jpg",
-summary: "Cale Clingan is rapidly becoming one of the most intriguing frontcourt prospects in the Midwest — a modern 6’9 big with perimeter skill, mobility, and a growing physical presence.
-Offensively, Clingan’s shooting touch immediately separates him. He’s a true stretch forward who knocks down threes with clean mechanics and confidence, whether spotting up from the trail, the slot, or the corners. He combines that shooting ability with real athletic pop — finishing above the rim, sprinting the floor, and attacking gaps with force when defenders close out too hard. What makes him even more valuable is his feel with the ball. Clingan is comfortable pushing the break, initiating sets, and making reads that most players his size simply can’t. There are flashes of point-forward instincts that hint at long-term upside once his handle tightens further. Defensively, he provides both rim protection and switchability. His length and timing allow him to anchor the paint, while his mobility gives him the versatility to hedge, recover, and survive on the perimeter when needed.With his rare blend of touch, mobility, and modern big-man versatility, Clingan projects as a matchup problem and a prospect whose stock should continue trending upward as he becomes more assertive physically."
+summary: "Cale Clingan is rapidly becoming one of the most intriguing frontcourt prospects in the Midwest — a modern 6’9 big with perimeter skill, mobility, and a growing physical presence. Offensively, Clingan’s shooting touch immediately separates him. He’s a true stretch forward who knocks down threes with clean mechanics and confidence, whether spotting up from the trail, the slot, or the corners. He combines that shooting ability with real athletic pop — finishing above the rim, sprinting the floor, and attacking gaps with force when defenders close out too hard. What makes him even more valuable is his feel with the ball. Clingan is comfortable pushing the break, initiating sets, and making reads that most players his size simply can’t. There are flashes of point-forward instincts that hint at long-term upside once his handle tightens further. Defensively, he provides both rim protection and switchability. His length and timing allow him to anchor the paint, while his mobility gives him the versatility to hedge, recover, and survive on the perimeter when needed.With his rare blend of touch, mobility, and modern big-man versatility, Clingan projects as a matchup problem and a prospect whose stock should continue trending upward as he becomes more assertive physically."
 },
 
 {
