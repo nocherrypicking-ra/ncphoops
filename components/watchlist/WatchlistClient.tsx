@@ -17,9 +17,11 @@ function uniqueSorted(values: (string | number)[]) {
     .sort((a, b) => a.localeCompare(b));
 }
 
-function matchesSearch(p: Player, q: string)
+function matchesSearch(p: Player, q: string) {
   if (!q) return true;
+
   const s = q.toLowerCase().trim();
+
   const blob = [
     p.name,
     p.school,
@@ -33,6 +35,7 @@ function matchesSearch(p: Player, q: string)
   ]
     .join(" ")
     .toLowerCase();
+
   return blob.includes(s);
 }
 
