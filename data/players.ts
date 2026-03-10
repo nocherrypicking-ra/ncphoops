@@ -7,7 +7,7 @@ export type Player = {
   school?: string
   state?: string
   classYear?: number
-  position?: string
+  position: string
   stars?: number
   height?: string
   image?: string
