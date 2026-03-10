@@ -777,7 +777,7 @@ position: "Guard",
 stars: 1,
 height: "5'10",
 image: "/players/keyonte-wingfield.jpg",
-Summary: "Keyonte Wingfield is a guard who plays bigger than his size through toughness, effort, and defensive commitment. He isn’t afraid to take on difficult matchups, crash the boards, or do the dirty work that helps his team win. While not a high-volume scorer, Wingfield is steady, reliable, and fundamentally sound, providing consistent energy and stability on both ends of the floor."
+summary: "Keyonte Wingfield is a guard who plays bigger than his size through toughness, effort, and defensive commitment. He isn’t afraid to take on difficult matchups, crash the boards, or do the dirty work that helps his team win. While not a high-volume scorer, Wingfield is steady, reliable, and fundamentally sound, providing consistent energy and stability on both ends of the floor."
 },
 
 {
