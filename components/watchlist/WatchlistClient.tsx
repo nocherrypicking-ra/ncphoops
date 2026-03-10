@@ -62,21 +62,6 @@ function sortPlayers(list: Player[], sort: SortKey) {
   return copy;
 }
 
-  // name
-  copy.sort((a, b) => a.name.localeCompare(b.name) || b.stars - a.stars);
-  return copy;
-}
-
-  // name
-  copy.sort((a, b) => a.name.localeCompare(b.name) || b.stars - a.stars);
-  return copy;
-}
-
-  // name
-  copy.sort((a, b) => a.name.localeCompare(b.name) || b.stars - a.stars);
-  return copy;
-}
-
 export default function WatchlistClient({ players }: Props) {
   const [q, setQ] = React.useState("");
   const [state, setState] = React.useState("ALL");
