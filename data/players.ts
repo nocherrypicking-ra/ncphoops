@@ -14,6 +14,8 @@ export type Player = {
   summary?: string
   college?: string
   stats?: string
+  commit?: string
+  strengths?: string[]
 }
 
 export const players: Player[] = [
