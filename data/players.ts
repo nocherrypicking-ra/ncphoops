@@ -5,7 +5,7 @@ export type Player = {
   slug: string
   name: string
   school: string
-  state?: string
+  state: string
   classYear: number
   position: string
   stars?: number
