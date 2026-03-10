@@ -2,11 +2,11 @@
 "use client";
 
 import * as React from "react";
-import type { WatchlistPlayer } from "@/data/watchlist";
+import type { Player } from "@/data/players";
 import PlayerCard from "@/components/watchlist/PlayerCard";
 
 type Props = {
-  players: WatchlistPlayer[];
+  players: Player[];
 };
 
 type SortKey = "stars" | "name" | "classYear";
@@ -17,7 +17,7 @@ function uniqueSorted(values: (string | number)[]) {
     .sort((a, b) => a.localeCompare(b));
 }
 
-function matchesSearch(p: WatchlistPlayer, q: string) {
+function matchesSearch(p: Player, q: string)
   if (!q) return true;
   const s = q.toLowerCase().trim();
   const blob = [
@@ -36,7 +36,7 @@ function matchesSearch(p: WatchlistPlayer, q: string) {
   return blob.includes(s);
 }
 
-function sortPlayers(list: WatchlistPlayer[], sort: SortKey) {
+function sortPlayers(list: Player[], sort: SortKey)
   const copy = [...list];
 
   if (sort === "stars") {
