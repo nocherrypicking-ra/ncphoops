@@ -100,7 +100,7 @@ export default function WatchlistClient({ players }: Props) {
     const base = players.filter((p) => {
       if (!matchesSearch(p, q)) return false;
       if (state !== "ALL" && p.state !== state) return false;
-      if (classYear !== "ALL" && p.classYear !== classYear) return false;
+if (classYear !== "ALL" && p.classYear !== Number(classYear)) return false;
       if (position !== "ALL" && p.position !== position) return false;
       if (stars !== "ALL" && p.stars !== stars) return false;
       return true;
