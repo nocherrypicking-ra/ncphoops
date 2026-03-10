@@ -256,8 +256,7 @@ position: "Guard",
 stars: 3,
 height: "6'3",
 image: "/players/matthew-widtfield.jpg",
-summary: "Matthew Widtfield is a high-IQ, steady guard who controls the game with poise and purpose. At 6’3, he plays with a rare understanding of spacing, pace, and team flow, making every possession deliberate and effective. Offensively, Widtfield doesn’t force plays — he reads defenses, finds the right spots, and scores efficiently when needed. His true value lies in leadership and elevating teammates through smart decisions and unselfish play. Defensively, he competes with pride, communicates consistently, and sets the tone with effort and accountability. Balanced, polished, and mature beyond his years, Widtfield’s floor presence is dependable at every level.
-"
+summary: "Matthew Widtfield is a high-IQ, steady guard who controls the game with poise and purpose. At 6’3, he plays with a rare understanding of spacing, pace, and team flow, making every possession deliberate and effective. Offensively, Widtfield doesn’t force plays — he reads defenses, finds the right spots, and scores efficiently when needed. His true value lies in leadership and elevating teammates through smart decisions and unselfish play. Defensively, he competes with pride, communicates consistently, and sets the tone with effort and accountability. Balanced, polished, and mature beyond his years, Widtfield’s floor presence is dependable at every level."
 },
 
 {
