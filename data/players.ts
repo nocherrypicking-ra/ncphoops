@@ -1008,7 +1008,7 @@ summary: "Travis Gary Jr. is a high-IQ guard with elite ballhandling and creativ
 id: "caden-mcclain",
 slug: "caden-mcclain",
 name: "Caden McClain",
-School: "Redwater HS",
+school: "Redwater HS",
 state: "TX",
 classYear: 2026,
 position: "G",
