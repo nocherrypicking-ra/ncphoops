@@ -39,7 +39,7 @@ function matchesSearch(p: Player, q: string) {
   return blob.includes(s);
 }
 
-function sortPlayers(list: Player[], sort: SortKey)
+function sortPlayers(list: Player[], sort: SortKey) {
   const copy = [...list];
 
   if (sort === "stars") {
@@ -51,11 +51,16 @@ function sortPlayers(list: Player[], sort: SortKey)
     copy.sort(
       (a, b) =>
         Number(a.classYear) - Number(b.classYear) ||
-        (b.stars - a.stars) ||
+        b.stars - a.stars ||
         a.name.localeCompare(b.name)
     );
     return copy;
   }
+
+  // name
+  copy.sort((a, b) => a.name.localeCompare(b.name) || b.stars - a.stars);
+  return copy;
+}
 
   // name
   copy.sort((a, b) => a.name.localeCompare(b.name) || b.stars - a.stars);
