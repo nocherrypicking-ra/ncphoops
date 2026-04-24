@@ -1,5 +1,5 @@
 export default function HomePage() {
-  const buttonStyle = {
+  const buttonStyle: React.CSSProperties = {
     color: "white",
     border: "1px solid rgba(255,255,255,0.6)",
     padding: "12px",
