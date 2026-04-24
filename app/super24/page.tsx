@@ -16,7 +16,7 @@ export default function Super24Page() {
 
       {/* BUTTONS */}
       <div className="flex flex-col gap-4 w-full max-w-xs">
-        
+         
         <a href="https://buytickets.at/nocherrypickingsuper24invitational2026/2173763" className="border border-white py-3">
           BUY TICKETS
         </a>
