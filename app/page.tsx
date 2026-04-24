@@ -1,4 +1,12 @@
 export default function HomePage() {
+  const buttonStyle = {
+    color: "white",
+    border: "1px solid rgba(255,255,255,0.6)",
+    padding: "12px",
+    textDecoration: "none",
+    textAlign: "center",
+  };
+
   return (
     <div
       style={{
@@ -13,7 +21,6 @@ export default function HomePage() {
         padding: "20px",
       }}
     >
-      {/* LOGO */}
       <img
         src="/super24-logo.png"
         alt="Super 24"
@@ -24,51 +31,35 @@ export default function HomePage() {
         }}
       />
 
-      {/* TAGLINE */}
-      <h1
-        style={{
-          marginBottom: "30px",
-          letterSpacing: "2px",
-        }}
-      >
+      <h1 style={{ marginBottom: "30px", letterSpacing: "2px" }}>
         4 STATES. ONE FLOOR.
       </h1>
 
-      {/* BUTTONS */}
       <div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px",
-    width: "100%",
-    maxWidth: "260px",
-  }}
->
-  <a
-    href="YOUR_TICKET_LINK"
-    style={buttonStyle}
-  >
-    BUY TICKETS
-  </a>
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+          width: "100%",
+          maxWidth: "260px",
+        }}
+      >
+        <a href="YOUR_TICKET_LINK" style={buttonStyle}>
+          BUY TICKETS
+        </a>
 
-  <a
-    href="YOUR_EVENTBRITE_LINK"
-    style={buttonStyle}
-  >
-    EVENTBRITE
-  </a>
+        <a href="YOUR_EVENTBRITE_LINK" style={buttonStyle}>
+          EVENTBRITE
+        </a>
 
-  <a
-    href="https://instagram.com/thesuper24_"
-    style={buttonStyle}
-  >
-    INSTAGRAM
-  </a>
+        <a href="https://instagram.com/thesuper24_" style={buttonStyle}>
+          INSTAGRAM
+        </a>
 
-  <a
-    href="https://twitter.com/NCPhoops_"
-    style={buttonStyle}
-  >
-    TWITTER
-  </a>
-</div>
+        <a href="https://twitter.com/NCPhoops_" style={buttonStyle}>
+          TWITTER
+        </a>
+      </div>
+    </div>
+  );
+}
