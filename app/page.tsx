@@ -36,59 +36,39 @@ export default function HomePage() {
 
       {/* BUTTONS */}
       <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
-          width: "100%",
-          maxWidth: "260px",
-        }}
-      >
-        <a
-          href="https://buytickets.at/nocherrypickingsuper24invitational2026/2173763"
-          style={{
-            color: "white",
-            border: "1px solid white",
-            padding: "12px",
-            textDecoration: "none",
-          }}
-        >
-          BUY TICKETS
-        </a>
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px",
+    width: "100%",
+    maxWidth: "260px",
+  }}
+>
+  <a
+    href="YOUR_TICKET_LINK"
+    style={buttonStyle}
+  >
+    BUY TICKETS
+  </a>
 
-        <a
-          href="YOUR_EVENTBRITE_LINK"
-          style={{
-            color: "white",
-            border: "1px solid white",
-            padding: "12px",
-            textDecoration: "none",
-          }}
-        >
-          EVENTBRITE
-        </a>
+  <a
+    href="YOUR_EVENTBRITE_LINK"
+    style={buttonStyle}
+  >
+    EVENTBRITE
+  </a>
 
-        <a
-          href="https://instagram.com/thesuper24_"
-          style={{
-            color: "white",
-            marginTop: "10px",
-            textDecoration: "none",
-          }}
-        >
-          INSTAGRAM
-        </a>
+  <a
+    href="https://instagram.com/thesuper24_"
+    style={buttonStyle}
+  >
+    INSTAGRAM
+  </a>
 
-        <a
-          href="https://twitter.com/ncphoops_"
-          style={{
-            color: "white",
-            textDecoration: "none",
-          }}
-        >
-          TWITTER
-        </a>
-      </div>
-    </div>
-  );
-}
+  <a
+    href="https://twitter.com/NCPhoops_"
+    style={buttonStyle}
+  >
+    TWITTER
+  </a>
+</div>
