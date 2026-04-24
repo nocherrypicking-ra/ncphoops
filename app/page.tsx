@@ -16,25 +16,29 @@ export default function HomePage() {
 
       {/* BUTTONS */}
       <div className="flex flex-col gap-4 w-full max-w-xs">
-  
-  <a href="YOUR_TICKET_LINK" className="border border-white py-3">
-    BUY TICKETS
-  </a>
+        
+        <a href="YOUR_TICKET_LINK" className="border border-white py-3">
+          BUY TICKETS
+        </a>
 
-  <a href="YOUR_EVENTBRITE_LINK" className="border border-white py-3">
-    EVENTBRITE
-  </a>
+        <a href="YOUR_EVENTBRITE_LINK" className="border border-white py-3">
+          EVENTBRITE
+        </a>
 
-  <a href="#" className="border border-white py-3">
-    EVENT DETAILS
-  </a>
+        <a href="#" className="border border-white py-3">
+          EVENT DETAILS
+        </a>
 
-  <a href="https://instagram.com/ncphoops_" className="border border-white py-3">
-    INSTAGRAM
-  </a>
+        <a href="https://instagram.com/ncphoops_" className="border border-white py-3">
+          INSTAGRAM
+        </a>
 
-  <a href="https://twitter.com/NCPhoops_" className="border border-white py-3">
-    TWITTER / X
-  </a>
+        <a href="https://twitter.com/NCPhoops_" className="border border-white py-3">
+          TWITTER / X
+        </a>
 
-</div>
+      </div>
+
+    </div>
+  );
+}
