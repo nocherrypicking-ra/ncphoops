@@ -29,7 +29,7 @@ export default function HomePage() {
           EVENT DETAILS
         </a>
 
-        <a href="https://instagram.com/ncphoops_" className="border border-white py-3">
+        <a href="https://instagram.com/thesuper24_" className="border border-white py-3">
           INSTAGRAM
         </a>
 
