@@ -1,43 +1,34 @@
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-6 text-center">
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "black",
+      color: "white",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+      padding: "20px"
+    }}>
       
-      {/* LOGO */}
-      <img
-        src="/super24-logo.png"
-        alt="Super 24 Logo"
-        className="w-64 md:w-80 mb-6"
+      <img 
+        src="/super24-logo.png" 
+        alt="Super 24" 
+        style={{ width: "300px", marginBottom: "20px" }} 
       />
 
-      {/* TAGLINE */}
-      <h1 className="text-xl md:text-2xl tracking-widest mb-10">
+      <h1 style={{ marginBottom: "30px" }}>
         4 STATES. ONE FLOOR.
       </h1>
 
-      {/* BUTTONS */}
-      <div className="flex flex-col gap-4 w-full max-w-xs">
-        
-        <a href="YOUR_TICKET_LINK" className="border border-white py-3">
-          BUY TICKETS
-        </a>
+      <a href="https://instagram.com/ncphoops_" style={{ margin: "10px", color: "white" }}>
+        INSTAGRAM
+      </a>
 
-        <a href="YOUR_EVENTBRITE_LINK" className="border border-white py-3">
-          EVENTBRITE
-        </a>
-
-        <a href="#" className="border border-white py-3">
-          EVENT DETAILS
-        </a>
-
-        <a href="https://instagram.com/thesuper24_" className="border border-white py-3">
-          INSTAGRAM
-        </a>
-
-        <a href="https://twitter.com/NCPhoops_" className="border border-white py-3">
-          TWITTER / X
-        </a>
-
-      </div>
+      <a href="https://twitter.com/NCPhoops_" style={{ margin: "10px", color: "white" }}>
+        TWITTER
+      </a>
 
     </div>
   );
