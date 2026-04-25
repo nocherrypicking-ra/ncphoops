@@ -44,11 +44,11 @@ export default function HomePage() {
           maxWidth: "260px",
         }}
       >
-        <a href="YOUR_TICKET_LINK" style={buttonStyle}>
+        <a href="https://buytickets.at/nocherrypickingsuper24invitational2026/2173763" style={buttonStyle}>
           BUY TICKETS
         </a>
 
-        <a href="YOUR_EVENTBRITE_LINK" style={buttonStyle}>
+        <a href="https://www.eventbrite.com/e/ncp-super-24-invitational-tickets-1987785283292?aff=ebdssbdestsearch" style={buttonStyle}>
           EVENTBRITE
         </a>
 
