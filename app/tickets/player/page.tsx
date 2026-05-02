@@ -16,7 +16,7 @@ export default function PlayerPage() {
     setLoading(true);
 
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbxFe1HkhpGpTyQ98kC_YlNT5gBEJyKkZ-kuPAlHDo6AD83OjSo60JBlenYMClisQxID/exec", {
+      await fetch("https://script.google.com/macros/s/AKhttps://script.google.com/macros/s/AKfycbxFe1HkhpGpTyQ98kC_YlNT5gBEJyKkZ-kuPAlHDo6AD83OjSo60JBlenYMClisQxID/exec", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
