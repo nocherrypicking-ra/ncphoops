@@ -11,22 +11,38 @@ export default function GAPlusPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
-    setLoading(true);
+ const handleSubmit = async () => {
+  setLoading(true);
 
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbxFe1HkhpGpTyQ98kC_YlNT5gBEJyKkZ-kuPAlHDo6AD83OjSo60JBlenYMClisQxID/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          first: form.first,
-          last: form.last,
-          email: form.email,
-          type: "GA+"
-        })
-      });
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbxFe1HkhpGpTyQ98kC_YlNT5gBEJyKkZ-kuPAlHDo6AD83OjSo60JBlenYMClisQxID/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first: form.first,
+        last: form.last,
+        email: form.email,
+        type: "GA"
+      }),
+    });
+
+    alert("Ticket Claimed ✅");
+
+    setForm({
+      first: "",
+      last: "",
+      email: ""
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+
+  setLoading(false);
+};
 
       alert("GA+ Ticket Claimed ✅");
 
