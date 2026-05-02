@@ -11,7 +11,7 @@ export default function VIPPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
+ const handleSubmit = async () => {
   setLoading(true);
 
   try {
@@ -19,15 +19,30 @@ export default function VIPPage() {
       method: "POST",
       mode: "no-cors",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         first: form.first,
         last: form.last,
         email: form.email,
         type: "VIP"
-      }),
+      })
     });
+
+    alert("VIP Access Granted 🏆");
+
+    setForm({
+      first: "",
+      last: "",
+      email: ""
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+
+  setLoading(false);
+};
 
     alert("Ticket Claimed ✅");
 
