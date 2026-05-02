@@ -7,28 +7,28 @@ export default function RedeemPage() {
   const [code, setCode] = useState("");
   const router = useRouter();
 
-const handleRedeem = () => {
-  const input = code.toUpperCase().trim();
+  const handleRedeem = () => {
+    const input = code.toUpperCase().trim();
 
-  if (input === "IVERSON") {
-    router.push("/tickets/ga");
+    if (input === "IVERSON") {
+      router.push("/tickets/ga");
 
-  } else if (input === "KYRIE") {
-    router.push("/tickets/ga-plus");
+    } else if (input === "KYRIE") {
+      router.push("/tickets/ga-plus");
 
-  } else if (input === "SGA") {
-    router.push("/tickets/vip");
+    } else if (input === "SGA") {
+      router.push("/tickets/vip");
 
-  } else if (input === "TEAGUE") {
-    router.push("/tickets/media");
+    } else if (input === "TEAGUE") {
+      router.push("/tickets/media");
 
-  } else if (input === "JORDAN") {
-    router.push("/tickets/player");
+    } else if (input === "JORDAN") {
+      router.push("/tickets/player");
 
-  } else {
-    alert("Invalid Code");
-  }
-};
+    } else {
+      alert("Invalid Code");
+    }
+  };
 
   return (
     <div style={{
@@ -36,38 +36,24 @@ const handleRedeem = () => {
       background: "black",
       color: "white",
       display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
       flexDirection: "column",
-      textAlign: "center",
-      padding: "20px"
+      alignItems: "center",
+      justifyContent: "center"
     }}>
-      <h1 style={{ marginBottom: "20px" }}>REDEEM ACCESS</h1>
+      <h1>REDEEM ACCESS</h1>
 
       <input
-        type="text"
-        placeholder="ENTER CODE"
         value={code}
         onChange={(e) => setCode(e.target.value)}
+        placeholder="ENTER CODE"
         style={{
           padding: "12px",
-          width: "260px",
-          marginBottom: "15px",
-          textAlign: "center",
-          background: "black",
-          border: "1px solid white",
-          color: "white",
-          letterSpacing: "2px"
+          margin: "10px",
+          textAlign: "center"
         }}
       />
 
-      <button onClick={handleRedeem} style={{
-        padding: "12px 30px",
-        background: "white",
-        color: "black",
-        border: "none",
-        cursor: "pointer"
-      }}>
+      <button onClick={handleRedeem}>
         REDEEM
       </button>
     </div>
