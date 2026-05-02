@@ -1,4 +1,22 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 export default function RedeemPage() {
+  const [code, setCode] = useState("");
+  const router = useRouter();
+
+  const handleRedeem = () => {
+    const validCodes = ["SUPER24VIP", "NCPFREE", "COURTSIDE24"]; // YOU CONTROL THESE
+
+    if (validCodes.includes(code.toUpperCase())) {
+      router.push("/free-tickets");
+    } else {
+      alert("Invalid Code");
+    }
+  };
+
   return (
     <div style={{
       minHeight: "100vh",
@@ -11,24 +29,27 @@ export default function RedeemPage() {
       textAlign: "center",
       padding: "20px"
     }}>
-      <h1 style={{ marginBottom: "20px" }}>REDEEM TICKET</h1>
+      <h1 style={{ marginBottom: "20px" }}>REDEEM ACCESS</h1>
 
       <input
         type="text"
-        placeholder="Enter Code"
+        placeholder="ENTER CODE"
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
         style={{
           padding: "12px",
-          width: "250px",
+          width: "260px",
           marginBottom: "15px",
           textAlign: "center",
           background: "black",
           border: "1px solid white",
-          color: "white"
+          color: "white",
+          letterSpacing: "2px"
         }}
       />
 
-      <button style={{
-        padding: "12px 24px",
+      <button onClick={handleRedeem} style={{
+        padding: "12px 30px",
         background: "white",
         color: "black",
         border: "none",
