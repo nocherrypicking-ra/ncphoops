@@ -25,7 +25,7 @@ export default function GAPlusPage() {
         first: form.first,
         last: form.last,
         email: form.email,
-        type: "GA"
+        type: "GA+"
       }),
     });
 
