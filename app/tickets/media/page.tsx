@@ -9,24 +9,43 @@ export default function MediaPage() {
     email: ""
   });
 
-  const handleSubmit = () => {
-    console.log("MEDIA:", form);
-    alert("Media Access Granted");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbxFe1HkhpGpTyQ98kC_YlNT5gBEJyKkZ-kuPAlHDo6AD83OjSo60JBlenYMClisQxID/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          first: form.first,
+          last: form.last,
+          email: form.email,
+          type: "MEDIA"
+        })
+      });
+
+      alert("Media Access Granted 🎥");
+
+      setForm({
+        first: "",
+        last: "",
+        email: ""
+      });
+
+    } catch (err) {
+      console.error(err);
+      alert("Error submitting form ❌");
+    }
+
+    setLoading(false);
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "black",
-        color: "white",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "12px"
-      }}
-    >
+    <div style={container}>
       <h1>MEDIA ACCESS</h1>
 
       <input
@@ -34,7 +53,6 @@ export default function MediaPage() {
         placeholder="First Name"
         value={form.first}
         onChange={(e) => setForm({ ...form, first: e.target.value })}
-        style={{ padding: "10px", width: "250px" }}
       />
 
       <input
@@ -42,7 +60,6 @@ export default function MediaPage() {
         placeholder="Last Name"
         value={form.last}
         onChange={(e) => setForm({ ...form, last: e.target.value })}
-        style={{ padding: "10px", width: "250px" }}
       />
 
       <input
@@ -50,21 +67,22 @@ export default function MediaPage() {
         placeholder="Email"
         value={form.email}
         onChange={(e) => setForm({ ...form, email: e.target.value })}
-        style={{ padding: "10px", width: "250px" }}
       />
 
-      <button
-        onClick={handleSubmit}
-        style={{
-          padding: "12px 20px",
-          backgroundColor: "white",
-          color: "black",
-          border: "none",
-          cursor: "pointer"
-        }}
-      >
-        CLAIM ACCESS
+      <button onClick={handleSubmit} disabled={loading}>
+        {loading ? "SUBMITTING..." : "CLAIM ACCESS"}
       </button>
     </div>
   );
 }
+
+const container = {
+  minHeight: "100vh",
+  backgroundColor: "black",
+  color: "white",
+  display: "flex",
+  flexDirection: "column" as const,
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "12px"
+};
