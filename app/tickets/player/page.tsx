@@ -30,7 +30,7 @@ export default function PlayerPage() {
         })
       });
 
-      alert("Player Guest Ticket Claimed 🏀");
+      alert("Player Ticket Claimed 🏀");
 
       setForm({
         first: "",
@@ -41,7 +41,7 @@ export default function PlayerPage() {
 
     } catch (err) {
       console.error(err);
-      alert("Error submitting form ❌");
+      alert("Error claiming ticket ❌");
     }
 
     setLoading(false);
@@ -79,21 +79,16 @@ export default function PlayerPage() {
         onChange={(e) => setForm({ ...form, athlete: e.target.value })}
       />
 
-<button
-  onClick={handleSubmit}
-  disabled={loading}
-  style={{
-    padding: "12px 28px",
-    backgroundColor: "transparent",
-    color: "#FFD700",
-    border: "1px solid #FFD700",
-    cursor: "pointer",
-    letterSpacing: "2px",
-    marginTop: "10px"
-  }}
->
-  {loading ? "SUBMITTING..." : "CLAIM ACCESS"}
-</button>
+      <button
+        onClick={handleSubmit}
+        disabled={loading}
+        style={buttonStyle}
+      >
+        {loading ? "SUBMITTING..." : "CLAIM ACCESS"}
+      </button>
+    </div>
+  );
+}
 
 const container = {
   minHeight: "100vh",
@@ -104,4 +99,14 @@ const container = {
   alignItems: "center",
   justifyContent: "center",
   gap: "12px"
+};
+
+const buttonStyle = {
+  padding: "12px 28px",
+  backgroundColor: "transparent",
+  color: "#FFD700",
+  border: "1px solid #FFD700",
+  cursor: "pointer",
+  letterSpacing: "2px",
+  marginTop: "10px"
 };
