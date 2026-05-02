@@ -51,7 +51,9 @@ export default function HomePage() {
         <a href="https://www.eventbrite.com/e/ncp-super-24-invitational-tickets-1987785283292?aff=ebdssbdestsearch" style={buttonStyle}>
           EVENTBRITE
         </a>
-
+<a href="/redeem" style={buttonStyle}>
+  REDEEM
+</a>
         <a href="https://instagram.com/thesuper24_" style={buttonStyle}>
           INSTAGRAM
         </a>
