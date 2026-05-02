@@ -9,10 +9,19 @@ export default function GAPage() {
     email: ""
   });
 
-  const handleSubmit = () => {
-    console.log("GA Ticket:", form);
-    alert("GA Ticket Claimed");
-  };
+  const handleSubmit = async () => {
+  await fetch("https://script.google.com/macros/s/AKfycbxFe1HkhpGpTyQ98kC_YlNT5gBEJyKkZ-kuPAlHDo6AD83OjSo60JBlenYMClisQxID/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      first: form.first,
+      last: form.last,
+      email: form.email,
+      type: "GA"
+    })
+  });
+
+  alert("Ticket Claimed");
+};
 
   return (
     <div
