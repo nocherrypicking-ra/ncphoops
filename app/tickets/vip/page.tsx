@@ -38,7 +38,7 @@ export default function VIPPage() {
 
     } catch (err) {
       console.error(err);
-      alert("Error submitting form ❌");
+      alert("Error claiming ticket ❌");
     }
 
     setLoading(false);
@@ -69,21 +69,16 @@ export default function VIPPage() {
         onChange={(e) => setForm({ ...form, email: e.target.value })}
       />
 
-<button
-  onClick={handleSubmit}
-  disabled={loading}
-  style={{
-    padding: "12px 28px",
-    backgroundColor: "transparent",
-    color: "#FFD700",
-    border: "1px solid #FFD700",
-    cursor: "pointer",
-    letterSpacing: "2px",
-    marginTop: "10px"
-  }}
->
-  {loading ? "SUBMITTING..." : "CLAIM ACCESS"}
-</button>
+      <button
+        onClick={handleSubmit}
+        disabled={loading}
+        style={buttonStyle}
+      >
+        {loading ? "SUBMITTING..." : "CLAIM ACCESS"}
+      </button>
+    </div>
+  );
+}
 
 const container = {
   minHeight: "100vh",
@@ -94,4 +89,14 @@ const container = {
   alignItems: "center",
   justifyContent: "center",
   gap: "12px"
+};
+
+const buttonStyle = {
+  padding: "12px 28px",
+  backgroundColor: "transparent",
+  color: "#FFD700",
+  border: "1px solid #FFD700",
+  cursor: "pointer",
+  letterSpacing: "2px",
+  marginTop: "10px"
 };
