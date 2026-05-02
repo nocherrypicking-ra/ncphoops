@@ -13,22 +13,37 @@ export default function PlayerPage() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      await fetch("https://script.google.com/macros/s/AKhttps://script.google.com/macros/s/AKfycbxFe1HkhpGpTyQ98kC_YlNT5gBEJyKkZ-kuPAlHDo6AD83OjSo60JBlenYMClisQxID/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          first: form.first,
-          last: form.last,
-          email: form.email,
-          athlete: form.athlete,
-          type: "PLAYER"
-        })
-      });
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbxFe1HkhpGpTyQ98kC_YlNT5gBEJyKkZ-kuPAlHDo6AD83OjSo60JBlenYMClisQxID/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first: form.first,
+        last: form.last,
+        email: form.email,
+        type: "PLAYER"
+      }),
+    });
+
+    alert("Ticket Claimed ✅");
+
+    setForm({
+      first: "",
+      last: "",
+      email: ""
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+
+  setLoading(false);
+};
 
       alert("Player Ticket Claimed 🏀");
 
