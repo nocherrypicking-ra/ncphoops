@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function GAPage() {
+export default function VIPPage() {
   const [form, setForm] = useState({
     first: "",
     last: "",
@@ -24,17 +24,21 @@ export default function GAPage() {
           first: form.first,
           last: form.last,
           email: form.email,
-          type: "GA"
+          type: "VIP"
         })
       });
 
-      alert("Ticket Claimed ✅");
+      alert("VIP Access Granted 🏆");
 
-      setForm({ first: "", last: "", email: "" });
+      setForm({
+        first: "",
+        last: "",
+        email: ""
+      });
 
     } catch (err) {
       console.error(err);
-      alert("Error submitting form ❌");
+      alert("Error claiming ticket ❌");
     }
 
     setLoading(false);
@@ -42,14 +46,35 @@ export default function GAPage() {
 
   return (
     <div style={container}>
-      <h1>GENERAL ADMISSION</h1>
+      <h1>VIP ACCESS</h1>
 
-      <input placeholder="First Name" value={form.first} onChange={(e) => setForm({ ...form, first: e.target.value })} />
-      <input placeholder="Last Name" value={form.last} onChange={(e) => setForm({ ...form, last: e.target.value })} />
-      <input placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+      <input
+        type="text"
+        placeholder="First Name"
+        value={form.first}
+        onChange={(e) => setForm({ ...form, first: e.target.value })}
+      />
 
-      <button onClick={handleSubmit} disabled={loading}>
-        {loading ? "SUBMITTING..." : "CLAIM TICKET"}
+      <input
+        type="text"
+        placeholder="Last Name"
+        value={form.last}
+        onChange={(e) => setForm({ ...form, last: e.target.value })}
+      />
+
+      <input
+        type="email"
+        placeholder="Email"
+        value={form.email}
+        onChange={(e) => setForm({ ...form, email: e.target.value })}
+      />
+
+      <button
+        onClick={handleSubmit}
+        disabled={loading}
+        style={buttonStyle}
+      >
+        {loading ? "SUBMITTING..." : "CLAIM ACCESS"}
       </button>
     </div>
   );
@@ -64,4 +89,14 @@ const container = {
   alignItems: "center",
   justifyContent: "center",
   gap: "12px"
+};
+
+const buttonStyle = {
+  padding: "12px 28px",
+  backgroundColor: "transparent",
+  color: "#FFD700",
+  border: "1px solid #FFD700",
+  cursor: "pointer",
+  letterSpacing: "2px",
+  marginTop: "10px"
 };
