@@ -30,15 +30,11 @@ export default function GAPlusPage() {
 
       alert("GA+ Ticket Claimed ✅");
 
-      setForm({
-        first: "",
-        last: "",
-        email: ""
-      });
+      setForm({ first: "", last: "", email: "" });
 
     } catch (err) {
       console.error(err);
-      alert("Error submitting form ❌");
+      alert("Error claiming ticket ❌");
     }
 
     setLoading(false);
@@ -48,28 +44,11 @@ export default function GAPlusPage() {
     <div style={container}>
       <h1>GA+ ACCESS</h1>
 
-      <input
-        type="text"
-        placeholder="First Name"
-        value={form.first}
-        onChange={(e) => setForm({ ...form, first: e.target.value })}
-      />
+      <input placeholder="First Name" value={form.first} onChange={(e) => setForm({ ...form, first: e.target.value })} />
+      <input placeholder="Last Name" value={form.last} onChange={(e) => setForm({ ...form, last: e.target.value })} />
+      <input placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
 
-      <input
-        type="text"
-        placeholder="Last Name"
-        value={form.last}
-        onChange={(e) => setForm({ ...form, last: e.target.value })}
-      />
-
-      <input
-        type="email"
-        placeholder="Email"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-
-      <button onClick={handleSubmit} disabled={loading}>
+      <button onClick={handleSubmit} disabled={loading} style={buttonStyle}>
         {loading ? "SUBMITTING..." : "CLAIM TICKET"}
       </button>
     </div>
@@ -85,4 +64,14 @@ const container = {
   alignItems: "center",
   justifyContent: "center",
   gap: "12px"
+};
+
+const buttonStyle = {
+  padding: "12px 28px",
+  backgroundColor: "transparent",
+  color: "#FFD700",
+  border: "1px solid #FFD700",
+  cursor: "pointer",
+  letterSpacing: "2px",
+  marginTop: "10px"
 };
