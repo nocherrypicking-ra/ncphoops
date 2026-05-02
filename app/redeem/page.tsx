@@ -7,15 +7,28 @@ export default function RedeemPage() {
   const [code, setCode] = useState("");
   const router = useRouter();
 
-  const handleRedeem = () => {
-    const validCodes = ["SUPER24VIP", "NCPFREE", "COURTSIDE24"]; // YOU CONTROL THESE
+const handleRedeem = () => {
+  const input = code.toUpperCase().trim();
 
-    if (validCodes.includes(code.toUpperCase())) {
-      router.push("/free-tickets");
-    } else {
-      alert("Invalid Code");
-    }
-  };
+  if (input === "IVERSON") {
+    router.push("/tickets/ga");
+
+  } else if (input === "KYRIE") {
+    router.push("/tickets/ga-plus");
+
+  } else if (input === "SGA") {
+    router.push("/tickets/vip");
+
+  } else if (input === "TEAGUE") {
+    router.push("/tickets/media");
+
+  } else if (input === "JORDAN") {
+    router.push("/tickets/player");
+
+  } else {
+    alert("Invalid Code");
+  }
+};
 
   return (
     <div style={{
