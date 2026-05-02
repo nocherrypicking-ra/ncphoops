@@ -69,12 +69,21 @@ export default function VIPPage() {
         onChange={(e) => setForm({ ...form, email: e.target.value })}
       />
 
-      <button onClick={handleSubmit} disabled={loading}>
-        {loading ? "SUBMITTING..." : "CLAIM ACCESS"}
-      </button>
-    </div>
-  );
-}
+<button
+  onClick={handleSubmit}
+  disabled={loading}
+  style={{
+    padding: "12px 28px",
+    backgroundColor: "transparent",
+    color: "#FFD700",
+    border: "1px solid #FFD700",
+    cursor: "pointer",
+    letterSpacing: "2px",
+    marginTop: "10px"
+  }}
+>
+  {loading ? "SUBMITTING..." : "CLAIM ACCESS"}
+</button>
 
 const container = {
   minHeight: "100vh",
