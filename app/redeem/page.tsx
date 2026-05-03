@@ -8,21 +8,52 @@ export default function RedeemPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleRedeem = () => {
+  const handleRedeem = async () => {
     const input = code.toUpperCase().trim();
 
+    let ticketType = "";
+    let redirectPath = "";
+
+    // 🎟️ CODE MAPPING
     if (input === "IVERSON") {
-      router.push("/tickets/ga");
+      ticketType = "GA";
+      redirectPath = "/tickets/ga";
     } else if (input === "KYRIE") {
-      router.push("/tickets/ga-plus");
+      ticketType = "GA+";
+      redirectPath = "/tickets/ga-plus";
     } else if (input === "SGA") {
-      router.push("/tickets/vip");
+      ticketType = "VIP";
+      redirectPath = "/tickets/vip";
     } else if (input === "TEAGUE") {
-      router.push("/tickets/media");
+      ticketType = "MEDIA";
+      redirectPath = "/tickets/media";
     } else if (input === "JORDAN") {
-      router.push("/tickets/player");
+      ticketType = "PLAYER";
+      redirectPath = "/tickets/player";
     } else {
       setError("INVALID CODE");
+      return;
+    }
+
+    try {
+      // 📩 SEND EMAIL LOG
+      await fetch("/api/redeem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: input,
+          type: ticketType,
+        }),
+      });
+
+      // 🚀 REDIRECT AFTER SUCCESS
+      router.push(redirectPath);
+
+    } catch (err) {
+      console.error(err);
+      setError("ERROR SENDING");
     }
   };
 
@@ -35,7 +66,7 @@ export default function RedeemPage() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: "15px"
+        gap: "15px",
       }}
     >
       <input
@@ -56,7 +87,7 @@ export default function RedeemPage() {
           border: "1px solid white",
           color: "white",
           letterSpacing: "2px",
-          outline: "none"
+          outline: "none",
         }}
       />
 
@@ -68,7 +99,7 @@ export default function RedeemPage() {
           color: "#FFD700",
           border: "1px solid #FFD700",
           cursor: "pointer",
-          letterSpacing: "2px"
+          letterSpacing: "2px",
         }}
       >
         REDEEM
@@ -79,7 +110,7 @@ export default function RedeemPage() {
           style={{
             color: "red",
             fontSize: "14px",
-            letterSpacing: "1px"
+            letterSpacing: "1px",
           }}
         >
           {error}
