@@ -5,6 +5,7 @@ export default function HomePage() {
     padding: "12px",
     textDecoration: "none",
     textAlign: "center",
+    letterSpacing: "1px",
   };
 
   return (
@@ -21,6 +22,35 @@ export default function HomePage() {
         padding: "20px",
       }}
     >
+      <div
+        style={{
+          marginBottom: "30px",
+          lineHeight: "1.8",
+        }}
+      >
+        <p
+          style={{
+            color: "rgba(255,255,255,0.75)",
+            letterSpacing: "4px",
+            fontSize: "12px",
+            margin: 0,
+          }}
+        >
+          MARCH 23, 2026 • 2:00 PM
+        </p>
+
+        <p
+          style={{
+            color: "rgba(255,255,255,0.75)",
+            letterSpacing: "4px",
+            fontSize: "12px",
+            margin: 0,
+          }}
+        >
+          TEXAS HIGH SCHOOL • TEXARKANA, TX
+        </p>
+      </div>
+
       <img
         src="/super24-logo.png"
         alt="Super 24"
@@ -31,7 +61,14 @@ export default function HomePage() {
         }}
       />
 
-      <h1 style={{ marginBottom: "30px", letterSpacing: "2px" }}>
+      <h1
+        style={{
+          marginBottom: "30px",
+          letterSpacing: "4px",
+          fontSize: "20px",
+          fontWeight: 400,
+        }}
+      >
         4 STATES. ONE FLOOR.
       </h1>
 
@@ -44,21 +81,35 @@ export default function HomePage() {
           maxWidth: "260px",
         }}
       >
-        <a href="https://buytickets.at/nocherrypickingsuper24invitational2026/2173763" style={buttonStyle}>
+        <a
+          href="https://buytickets.at/nocherrypickingsuper24invitational2026/2173763"
+          style={buttonStyle}
+        >
           BUY TICKETS
         </a>
 
-        <a href="https://www.eventbrite.com/e/ncp-super-24-invitational-tickets-1987785283292?aff=ebdssbdestsearch" style={buttonStyle}>
+        <a
+          href="https://www.eventbrite.com/e/ncp-super-24-invitational-tickets-1987785283292?aff=ebdssbdestsearch"
+          style={buttonStyle}
+        >
           EVENTBRITE
         </a>
-<a href="/redeem" style={buttonStyle}>
-  REDEEM
-</a>
-        <a href="https://instagram.com/thesuper24_" style={buttonStyle}>
+
+        <a href="/redeem" style={buttonStyle}>
+          REDEEM
+        </a>
+
+        <a
+          href="https://instagram.com/thesuper24_"
+          style={buttonStyle}
+        >
           INSTAGRAM
         </a>
 
-        <a href="https://twitter.com/NCPhoops_" style={buttonStyle}>
+        <a
+          href="https://twitter.com/NCPhoops_"
+          style={buttonStyle}
+        >
           TWITTER
         </a>
       </div>
