@@ -8,8 +8,7 @@ export default function PlayerTicketPage() {
     lastName: "",
     email: "",
     phone: "",
-    school: "",
-    graduatingClass: "",
+    participantName: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -40,8 +39,7 @@ export default function PlayerTicketPage() {
           lastName: "",
           email: "",
           phone: "",
-          school: "",
-          graduatingClass: "",
+          participantName: "",
         });
       }
     } catch (err) {
@@ -114,21 +112,10 @@ export default function PlayerTicketPage() {
 
             <input
               type="text"
-              placeholder="School"
-              value={form.school}
+              placeholder="Super 24 Participant Name"
+              value={form.participantName}
               onChange={(e) =>
-                setForm({ ...form, school: e.target.value })
-              }
-              className="w-full bg-neutral-900 border border-neutral-700 rounded-xl px-4 py-4 outline-none"
-              required
-            />
-
-            <input
-              type="text"
-              placeholder="Graduating Class"
-              value={form.graduatingClass}
-              onChange={(e) =>
-                setForm({ ...form, graduatingClass: e.target.value })
+                setForm({ ...form, participantName: e.target.value })
               }
               className="w-full bg-neutral-900 border border-neutral-700 rounded-xl px-4 py-4 outline-none"
               required
