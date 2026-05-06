@@ -20,8 +20,7 @@ export async function POST(req: Request) {
     } = data;
 
     const response = await resend.emails.send({
-      from: "Super 24 <onboarding@resend.dev>",
-      to: "no.cherrypicking@gmail.com",
+from: "onboarding@resend.dev",      to: "no.cherrypicking@gmail.com",
       subject: `NEW ${ticketType} CLAIM`,
       html: `
         <h2>New Ticket Claim</h2>
