@@ -6,6 +6,7 @@ export default function HomePage() {
     textDecoration: "none",
     textAlign: "center",
     letterSpacing: "1px",
+    fontWeight: "bold",
   };
 
   return (
@@ -30,9 +31,10 @@ export default function HomePage() {
       >
         <p
           style={{
-            color: "rgba(255,255,255,0.75)",
+            color: "white",
             letterSpacing: "4px",
-            fontSize: "12px",
+            fontSize: "13px",
+            fontWeight: "bold",
             margin: 0,
           }}
         >
@@ -41,13 +43,26 @@ export default function HomePage() {
 
         <p
           style={{
-            color: "rgba(255,255,255,0.75)",
+            color: "white",
             letterSpacing: "4px",
-            fontSize: "12px",
+            fontSize: "13px",
+            fontWeight: "bold",
             margin: 0,
           }}
         >
           TEXAS HIGH SCHOOL • TEXARKANA, TX
+        </p>
+
+        <p
+          style={{
+            color: "rgba(255,255,255,0.8)",
+            letterSpacing: "3px",
+            fontSize: "11px",
+            marginTop: "6px",
+            marginBottom: 0,
+          }}
+        >
+          4001 SUMMERHILL RD
         </p>
       </div>
 
@@ -66,7 +81,7 @@ export default function HomePage() {
           marginBottom: "30px",
           letterSpacing: "4px",
           fontSize: "20px",
-          fontWeight: 400,
+          fontWeight: "bold",
         }}
       >
         4 STATES. ONE FLOOR.
