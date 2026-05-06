@@ -19,9 +19,9 @@ export async function POST(req: Request) {
       graduatingClass,
     } = data;
 
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "YOUR EMAIL HERE",
+    const response = await resend.emails.send({
+      from: "Super 24 <onboarding@resend.dev>",
+      to: "no.cherrypicking@gmail.com",
       subject: `NEW ${ticketType} CLAIM`,
       html: `
         <h2>New Ticket Claim</h2>
@@ -62,6 +62,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
+      response,
     });
   } catch (error) {
     console.error(error);
@@ -69,6 +70,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: false,
+        error,
       },
       {
         status: 500,
