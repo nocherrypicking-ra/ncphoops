@@ -17,10 +17,12 @@ export async function POST(req: Request) {
       instagram,
       school,
       graduatingClass,
+      participantName,
     } = data;
 
-    const response = await resend.emails.send({
-from: "onboarding@resend.dev",      to: "no.cherrypicking@gmail.com",
+    const { data: emailData, error } = await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: "no.cherrypicking@gmail.com",
       subject: `NEW ${ticketType} CLAIM`,
       html: `
         <h2>New Ticket Claim</h2>
@@ -32,6 +34,12 @@ from: "onboarding@resend.dev",      to: "no.cherrypicking@gmail.com",
         <p><strong>Email:</strong> ${email}</p>
 
         <p><strong>Phone:</strong> ${phone}</p>
+
+        ${
+          participantName
+            ? `<p><strong>Participant Name:</strong> ${participantName}</p>`
+            : ""
+        }
 
         ${
           organization
@@ -59,12 +67,27 @@ from: "onboarding@resend.dev",      to: "no.cherrypicking@gmail.com",
       `,
     });
 
+    console.log("EMAIL DATA:", emailData);
+    console.log("EMAIL ERROR:", error);
+
+    if (error) {
+      return NextResponse.json(
+        {
+          success: false,
+          error,
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
     return NextResponse.json({
       success: true,
-      response,
+      emailData,
     });
   } catch (error) {
-    console.error(error);
+    console.error("SERVER ERROR:", error);
 
     return NextResponse.json(
       {
