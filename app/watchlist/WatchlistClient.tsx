@@ -38,17 +38,17 @@ function Select({
         {label}
       </span>
 
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white"
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
+     <select
+  value={value}
+  onChange={(e) => onChange(e.target.value)}
+  className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white"
+>
+  {options.map((o) => (
+    <option key={o.value} value={o.value}>
+      {o.label}
+    </option>
+  ))}
+</select>
     </label>
   );
 }
