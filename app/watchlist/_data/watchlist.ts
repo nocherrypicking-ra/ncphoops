@@ -1,18 +1,19 @@
 export type Player = {
-  id: string
-  slug: string
-  name: string
-  school?: string
-  state?: string
-  classYear?: number
-  position?: string
-  stars?: number
-  height?: string
-  image?: string
-  summary?: string
-  college?: string
-  stats?: string
-}
+  id: string;
+  slug: string;
+  name: string;
+  school: string;
+  state: string;
+  classYear: number;
+  position: string;
+  stars: number;
+  height: string;
+  image?: string;
+  summary: string;
+  college: string;
+  stats?: string;
+};
+
 
 export const players: Player[] = [
   {
