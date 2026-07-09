@@ -33,7 +33,6 @@ function Select({
   onChange,
   options,
 }: SelectProps) {
-  return (
     <label className="block">
       <span className="block mb-2 text-[11px] uppercase tracking-widest text-gray-400">
         {label}
@@ -160,7 +159,6 @@ export default function WatchlistClient({
     setPage(1);
   };
 
-  return (
     <div className="min-h-screen bg-[#070707] text-white">
       <div className="relative mx-auto max-w-7xl px-6 py-14">
 
