@@ -1,8 +1,6 @@
-import Link from "next/link"
-import { players } from "../../data/players"
 import WatchlistClient from "./WatchlistClient";
-import { watchlist } from "./_data/watchlist";
+import { players } from "./_data/watchlist";
 
 export default function WatchlistPage() {
-return <WatchlistClient data={players} />;
+  return <WatchlistClient data={players} />;
 }
