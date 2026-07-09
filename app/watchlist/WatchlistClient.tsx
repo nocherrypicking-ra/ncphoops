@@ -55,7 +55,7 @@ function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
 }
 
-import type { Player } from "./_data/watchlist";
+
 
 export default function WatchlistClient({ data }: { data: Player[] }) {  const [q, setQ] = useState("");
   const [star, setStar] = useState<number | "all">("all");
@@ -95,8 +95,10 @@ export default function WatchlistClient({ data }: { data: Player[] }) {  const [
 
         const matchStar = star === "all" ? true : p.stars === star;
         const matchState = state === "all" ? true : p.state === state;
-        const matchClass = classYear === "all" ? true : p.classYear === classYear;
-        const matchPos = position === "all" ? true : p.position === position;
+const matchClass =
+  classYear === "all"
+    ? true
+    : p.classYear === Number(classYear);        const matchPos = position === "all" ? true : p.position === position;
 
         return matchQuery && matchStar && matchState && matchClass && matchPos;
       })
