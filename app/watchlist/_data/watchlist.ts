@@ -20,6 +20,7 @@ export const players: Player[] = [
 
 {
   id: "jj-andrews-2026",
+  slug: "jj-andrews-2026",
   name: "JJ Andrews",
   height: "6'7",
   position: "G/F",
@@ -32,6 +33,7 @@ export const players: Player[] = [
 },
 {
   id: "ethan-sheats-2026",
+  slug: "ethan-sheats-2026",
   name: "Ethan Sheats",
   height: "6'9",
   position: "F/C",
@@ -46,6 +48,7 @@ export const players: Player[] = [
 // 4★
 {
   id: "austin-brown-2026",
+  slug: "austin-brown-2026",
   name: "Austin Brown",
   height: "6'5",
   position: "G/F",
@@ -58,6 +61,7 @@ export const players: Player[] = [
 },
 {
   id: "zvon-king-2026",
+  slug: "zvon-king-2026",
   name: "Zvon King",
   height: "6'5",
   position: "G/F",
@@ -70,6 +74,7 @@ export const players: Player[] = [
 },
 {
   id: "trey-rhodes-2026",
+  slug: "trey-rhodes-2026",
   name: "Trey Rhodes",
   height: "6'4",
   position: "G/F",
