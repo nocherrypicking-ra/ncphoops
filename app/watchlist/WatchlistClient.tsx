@@ -1,5 +1,5 @@
 "use client";
-
+import type { Player } from "./_data/watchlist";
 import Link from "next/link";
 import { useMemo, useState, useEffect } from "react";
 
@@ -69,8 +69,9 @@ function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
 }
 
-export default function WatchlistClient({ data }: { data: WatchlistPlayer[] }) {
-  const [q, setQ] = useState("");
+import type { Player } from "./_data/watchlist";
+
+export default function WatchlistClient({ data }: { data: Player[] }) {  const [q, setQ] = useState("");
   const [star, setStar] = useState<number | "all">("all");
   const [state, setState] = useState("all");
   const [classYear, setClassYear] = useState("all");
