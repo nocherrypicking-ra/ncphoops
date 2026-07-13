@@ -22,7 +22,6 @@ export default function WatchlistPage() {
               <label className="mb-2 block text-sm font-semibold uppercase text-yellow-400">
                 Stars
               </label>
-
               <select className="w-full rounded-lg border border-neutral-700 bg-black p-3 text-white">
                 <option>All Stars</option>
                 <option>No Stars</option>
@@ -38,7 +37,6 @@ export default function WatchlistPage() {
               <label className="mb-2 block text-sm font-semibold uppercase text-yellow-400">
                 Class
               </label>
-
               <select className="w-full rounded-lg border border-neutral-700 bg-black p-3 text-white">
                 <option>All Classes</option>
                 <option>2026</option>
@@ -53,7 +51,6 @@ export default function WatchlistPage() {
               <label className="mb-2 block text-sm font-semibold uppercase text-yellow-400">
                 Position
               </label>
-
               <select className="w-full rounded-lg border border-neutral-700 bg-black p-3 text-white">
                 <option>All Positions</option>
                 <option>PG</option>
@@ -71,7 +68,6 @@ export default function WatchlistPage() {
               <label className="mb-2 block text-sm font-semibold uppercase text-yellow-400">
                 State
               </label>
-
               <select className="w-full rounded-lg border border-neutral-700 bg-black p-3 text-white">
                 <option>All States</option>
                 <option>AR</option>
@@ -85,10 +81,14 @@ export default function WatchlistPage() {
 
         {/* Player Grid */}
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <PlayerCard />
-          <PlayerCard />
-          <PlayerCard />
-          <PlayerCard />
+          <PlayerCard
+            name="Trey Rhodes"
+            school="Arkansas High"
+            height="6'4"
+            position="Wing"
+            classYear={2026}
+            stars="★★★★☆"
+          />
         </div>
       </div>
     </main>
