@@ -13,14 +13,13 @@ export default function WatchlistPage() {
 
         <div className="mt-6 border-b border-neutral-800"></div>
 
+        {/* Filters */}
         <div className="mt-8 rounded-xl border border-neutral-800 bg-[#111111] p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Stars */}
             <div>
               <label className="block text-sm font-semibold text-yellow-400 mb-2 uppercase">
                 Stars
               </label>
-
               <select className="w-full rounded-lg bg-black border border-neutral-700 p-3 text-white">
                 <option>All Stars</option>
                 <option>No Stars</option>
@@ -32,12 +31,10 @@ export default function WatchlistPage() {
               </select>
             </div>
 
-            {/* Class */}
             <div>
               <label className="block text-sm font-semibold text-yellow-400 mb-2 uppercase">
                 Class
               </label>
-
               <select className="w-full rounded-lg bg-black border border-neutral-700 p-3 text-white">
                 <option>All Classes</option>
                 <option>2026</option>
@@ -48,12 +45,10 @@ export default function WatchlistPage() {
               </select>
             </div>
 
-            {/* Position */}
             <div>
               <label className="block text-sm font-semibold text-yellow-400 mb-2 uppercase">
                 Position
               </label>
-
               <select className="w-full rounded-lg bg-black border border-neutral-700 p-3 text-white">
                 <option>All Positions</option>
                 <option>PG</option>
@@ -67,12 +62,10 @@ export default function WatchlistPage() {
               </select>
             </div>
 
-            {/* State */}
             <div>
               <label className="block text-sm font-semibold text-yellow-400 mb-2 uppercase">
                 State
               </label>
-
               <select className="w-full rounded-lg bg-black border border-neutral-700 p-3 text-white">
                 <option>All States</option>
                 <option>AR</option>
@@ -82,6 +75,17 @@ export default function WatchlistPage() {
               </select>
             </div>
           </div>
+        </div>
+
+        {/* Player Grid */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="rounded-xl border border-neutral-800 bg-[#111111] p-6 min-h-[260px]"></div>
+
+          <div className="rounded-xl border border-neutral-800 bg-[#111111] p-6 min-h-[260px]"></div>
+
+          <div className="rounded-xl border border-neutral-800 bg-[#111111] p-6 min-h-[260px]"></div>
+
+          <div className="rounded-xl border border-neutral-800 bg-[#111111] p-6 min-h-[260px]"></div>
         </div>
       </div>
     </main>
