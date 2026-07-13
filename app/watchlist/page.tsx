@@ -8,7 +8,7 @@ export default function WatchlistPage() {
         </h1>
 
         <p className="mt-4 text-lg text-neutral-400">
-          The premier basketball watchlist across Arkansas, Texas, Oklahoma &
+          The premier basketball watchlist featuring all talent levels across Arkansas, Texas, Oklahoma &
           Louisiana.
         </p>
 
