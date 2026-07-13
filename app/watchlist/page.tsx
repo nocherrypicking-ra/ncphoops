@@ -1,4 +1,4 @@
-import PlayerCard from "./components/PlayerCard";
+import PlayerCard from "./componets/PlayerCard";
 
 export default function WatchlistPage() {
   return (
