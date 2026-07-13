@@ -79,13 +79,47 @@ export default function WatchlistPage() {
 
         {/* Player Grid */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="rounded-xl border border-neutral-800 bg-[#111111] p-6 min-h-[260px]"></div>
 
-          <div className="rounded-xl border border-neutral-800 bg-[#111111] p-6 min-h-[260px]"></div>
+          {/* Demo Card */}
+          <div className="overflow-hidden rounded-xl border border-neutral-800 bg-[#111111] transition duration-300 hover:border-yellow-400 hover:shadow-[0_0_20px_rgba(250,204,21,.25)]">
 
-          <div className="rounded-xl border border-neutral-800 bg-[#111111] p-6 min-h-[260px]"></div>
+            {/* Photo */}
+            <div className="relative h-72 bg-neutral-700">
 
-          <div className="rounded-xl border border-neutral-800 bg-[#111111] p-6 min-h-[260px]"></div>
+              {/* Stars */}
+              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-center py-2 text-yellow-400 text-xl tracking-widest">
+                ★★★★☆
+              </div>
+
+            </div>
+
+            {/* Card Info */}
+            <div className="p-5">
+
+              <h2 className="text-2xl font-bold uppercase">
+                Trey Rhodes
+              </h2>
+
+              <p className="mt-2 text-neutral-300">
+                6'4 | Wing
+              </p>
+
+              <p className="text-neutral-400">
+                Arkansas High
+              </p>
+
+              <p className="text-neutral-500">
+                Class 2026
+              </p>
+
+              <button className="mt-5 w-full rounded-lg bg-yellow-400 py-3 font-bold uppercase text-black transition hover:bg-yellow-300">
+                View Profile
+              </button>
+
+            </div>
+
+          </div>
+
         </div>
       </div>
     </main>
