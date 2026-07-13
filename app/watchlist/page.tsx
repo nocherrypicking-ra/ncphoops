@@ -1,3 +1,5 @@
+import PlayerCard from "./components/PlayerCard";
+
 export default function WatchlistPage() {
   return (
     <main className="min-h-screen bg-black text-white">
@@ -15,12 +17,13 @@ export default function WatchlistPage() {
 
         {/* Filters */}
         <div className="mt-8 rounded-xl border border-neutral-800 bg-[#111111] p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div>
-              <label className="block text-sm font-semibold text-yellow-400 mb-2 uppercase">
+              <label className="mb-2 block text-sm font-semibold uppercase text-yellow-400">
                 Stars
               </label>
-              <select className="w-full rounded-lg bg-black border border-neutral-700 p-3 text-white">
+
+              <select className="w-full rounded-lg border border-neutral-700 bg-black p-3 text-white">
                 <option>All Stars</option>
                 <option>No Stars</option>
                 <option>★</option>
@@ -32,10 +35,11 @@ export default function WatchlistPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-yellow-400 mb-2 uppercase">
+              <label className="mb-2 block text-sm font-semibold uppercase text-yellow-400">
                 Class
               </label>
-              <select className="w-full rounded-lg bg-black border border-neutral-700 p-3 text-white">
+
+              <select className="w-full rounded-lg border border-neutral-700 bg-black p-3 text-white">
                 <option>All Classes</option>
                 <option>2026</option>
                 <option>2027</option>
@@ -46,10 +50,11 @@ export default function WatchlistPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-yellow-400 mb-2 uppercase">
+              <label className="mb-2 block text-sm font-semibold uppercase text-yellow-400">
                 Position
               </label>
-              <select className="w-full rounded-lg bg-black border border-neutral-700 p-3 text-white">
+
+              <select className="w-full rounded-lg border border-neutral-700 bg-black p-3 text-white">
                 <option>All Positions</option>
                 <option>PG</option>
                 <option>SG</option>
@@ -63,10 +68,11 @@ export default function WatchlistPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-yellow-400 mb-2 uppercase">
+              <label className="mb-2 block text-sm font-semibold uppercase text-yellow-400">
                 State
               </label>
-              <select className="w-full rounded-lg bg-black border border-neutral-700 p-3 text-white">
+
+              <select className="w-full rounded-lg border border-neutral-700 bg-black p-3 text-white">
                 <option>All States</option>
                 <option>AR</option>
                 <option>TX</option>
@@ -78,48 +84,11 @@ export default function WatchlistPage() {
         </div>
 
         {/* Player Grid */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-          {/* Demo Card */}
-          <div className="overflow-hidden rounded-xl border border-neutral-800 bg-[#111111] transition duration-300 hover:border-yellow-400 hover:shadow-[0_0_20px_rgba(250,204,21,.25)]">
-
-            {/* Photo */}
-            <div className="relative h-72 bg-neutral-700">
-
-              {/* Stars */}
-              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-center py-2 text-yellow-400 text-xl tracking-widest">
-                ★★★★☆
-              </div>
-
-            </div>
-
-            {/* Card Info */}
-            <div className="p-5">
-
-              <h2 className="text-2xl font-bold uppercase">
-                Trey Rhodes
-              </h2>
-
-              <p className="mt-2 text-neutral-300">
-                6'4 | Wing
-              </p>
-
-              <p className="text-neutral-400">
-                Arkansas High
-              </p>
-
-              <p className="text-neutral-500">
-                Class 2026
-              </p>
-
-              <button className="mt-5 w-full rounded-lg bg-yellow-400 py-3 font-bold uppercase text-black transition hover:bg-yellow-300">
-                View Profile
-              </button>
-
-            </div>
-
-          </div>
-
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <PlayerCard />
+          <PlayerCard />
+          <PlayerCard />
+          <PlayerCard />
         </div>
       </div>
     </main>
