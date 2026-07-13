@@ -12,6 +12,9 @@ export default function WatchlistPage() {
         </p>
 
         <div className="mt-6 border-b border-neutral-800"></div>
+
+        <div className="mt-8 rounded-xl border border-neutral-800 bg-[#111111] p-6">
+        </div>
       </div>
     </main>
   );
